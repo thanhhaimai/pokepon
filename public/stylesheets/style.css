@@ -1,6 +1,54 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+h1 {
+  font-family: 'Droid Sans', sans-serif;
+  font-weight: 400;
+  font-size: 50px;
+  padding-top: 0px;
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  color: #222;
+}
+.character {
+  position: fixed;
+  height: 100%;
+  width: 50%;
+  float: left;
+  background-color: #BBFBBB;
+  top: 0;
+}
+#pokemon {
+  float: center;
+  position: fixed;
+  height: 30%;
+}
+#username {
+  top: 0;
+  margin: 5px;
+  margin-bottom: 5px;
+}
+#youcharacter {
+  left: 0;
+}
+#opponentcharacter {
+  right: 0;
+}
+.vdivider {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  width: 3px;
+  float: right;
+  background-color: #A9BA9D;
+}
+.hdivider {
+  height: 6px;
+  width: 100%;
+  background-color: #A9BA9D;
+}
+#vyoudivider {
+  float: right;
+}
+#vopponentdivider {
+  float: left;
 }
 a {
   color: #00B7FF;
