@@ -64,7 +64,14 @@
             console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
               console.log("SCRATCH");
-              successfulPokemonAttack("Evee", 'SCRATCH');
+              var youpokemonel = $('#youpokemon')[0];
+              youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
+              var transitionendhandler = function(event) {
+                youpokemonel.style.WebkitTransform = "scaleX(-1)";
+                youpokemonel.removeEventListener("transitionend", this);
+              }
+              youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+                            successfulPokemonAttack("Evee", 'SCRATCH');
               sequeneSoFar =[];
               count = 0;
             }
