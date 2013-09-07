@@ -1,4 +1,4 @@
-var Firebase = require('firebase');
+var Player = requires('./player.js');
 
 Game = function (id) {
   this.pokepons = new Array();
@@ -12,9 +12,7 @@ Game.prototype.stop = function() {
 }
 
 Game.prototype.createPlayer = function() {
-  // if we already have 2 players, throw an error
-  // create a player
-  // return the player
+  return new Player();
 }
 
 module.exports = Game;

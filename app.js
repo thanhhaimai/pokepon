@@ -37,13 +37,21 @@ app.get('/games', game.list);
 app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
 
-var players = {};
-
 io.sockets.on('connection', function (socket) {
   socket.emit('welcome', {msg: "welcome", id: socket.id});
+  var myGame;
+  var myPlayer;
+
   socket.on('join', function(data) {
-    console.log('client ' + data + ' requested to join');
+    myGame = game.games[data.gameId];
+    myPlayer = myGame.createPlayer();
     socket.emit('joined', {type: "player"});
+  });
+
+  socket.on('keyPressed', function(data) {
+  });
+
+  socket.on('attack', function(data) {
   });
 });
 

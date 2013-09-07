@@ -11,7 +11,7 @@ var pokeponsRef = gamesRef.child('pokepons');
 var gameUniqueIndex = 0;
 var gameRef = gamesRef.child(gameUniqueIndex);
 
-var games = {};
+exports.games = {};
 
 exports.list = function(req, res) {
   res.render('index', {"games": games});
