@@ -1,18 +1,115 @@
 <!DOCTYPE html>
 <html>
   <head>
-  	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="/javascripts/client.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   </head>
   <body>
-  	<div align = center>
-	    <h1>Pokepon!</h1>
-	    <div class = "character">
-	    </div>
-	    <div class = "character">
-	    </div>
+    <script>
+      //w=87,a=65, s=83, d=68
+      var attackDict = [];
+      var acceptedKeyCodes = [87, 65, 83, 68];
+      attackDict['scratch'] = [87,87,87,87];
+      attackDict['block'] = [65,65,83,65];
+      var sequenceSoFar = [];
+      $(function () {
+        $(document).keyup(function (e) {
+          // console.log(e.timeStamp);
+          console.log("entered: " + e.keyCode);
+          if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
+            return;
+          }
+          var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
+          //console.log(beatTimeStamp);
+          if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
+            console.log("NOT ACCURATE ENOUGH!");
+            sequenceSoFar=[];
+          }
+          sequenceSoFar.push(e.keyCode);
+          console.log("sequenceSoFar: " + sequenceSoFar);
+          for (var attack in attackDict) {
 
-	</div>
+            if (isEqual(sequenceSoFar, attackDict[attack])) {
+              console.log("ATTACK!");
+              sequenceSoFar = [];
+            }
+            //below is a bit hacky for now, will have to reset sequence another way later on
+            if (sequenceSoFar.length > attackDict[attack].length) {
+              sequenceSoFar=[];
+              console.log("hackyly clearing the array");
+            }
+          }
+        });
+      });
+
+      function isEqual(arr1, arr2) {
+        console.log("comparing: ", arr1,  arr2);
+        if (arr1.length != arr2.length) {
+          return false;
+        }
+        for (var i = 0; i < arr1.length; i = i +1) {
+          if (arr1[i] != arr2[i]) {
+            return false;
+          }
+        }
+        //console.log("the arrays are equal");
+        return true;
+      }
+      //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
+      function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
+        if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
+          return true;
+        }
+        return false;
+      }
+
+    </script>
+    <div align = center>
+      <div class = "character" id = "youcharacter">
+        <div class = "vdivider" id = "vyoudivider">
+        </div>
+        <div id = "username">
+          <h1>
+            myUsername
+          </h1>
+        </div>
+        <div class = "hdivider">
+        </div>
+        <div id = "textbox">
+        	Eevee used Basic Attack!
+        	<br>
+        	It's super effective!
+        </div>
+        <div align = center>
+        <img id = "pokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
+    </div>
+        my stuff
+
+      </div>
+      <div class = "character" id = "opponentcharacter">
+        <div class = "vdivider" id = "vopponentdivider">
+        </div>
+        <div id = "username">
+          <h1>
+            opponentUsername
+          </h1>
+        </div>
+        <div class = "hdivider">
+        </div>
+        <div align = center>
+        <img id = "pokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
+    </div>
+        my stuff
+        <br>
+        yes
+        <br>
+        my stuff
+      </div>
+
+    </div>
   </body>
 </html>
