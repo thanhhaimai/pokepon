@@ -52,10 +52,10 @@
       function isSubArray(typedArray, givenMove) {
         if (typedArray.length == 0) {
           return true;
-          } else if (typedArray[0] != givenMove[0]) {
+        } else if (typedArray[0] != givenMove[0]) {
           return false;
-          } else {
-          return true && isSubArray(typedArray.slice(1), givenMove.slice(1));
+        } else {
+          return isSubArray(typedArray.slice(1), givenMove.slice(1));
         }
       }
       $(function () {
@@ -66,10 +66,8 @@
             return;
           }
           var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-          //console.log(beatTimeStamp);
           if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
             console.log("NOT ACCURATE ENOUGH!");
-            console.log("NEW");
             sequenceSoFar=[];
           }
           sequenceSoFar.push(e.keyCode);
@@ -135,6 +133,7 @@
           });
         });
       </script>
+
       <div align = center>
         <div class = "character" id = "youcharacter" height = "100%">
           <div class = "vdivider" id = "vyoudivider">
