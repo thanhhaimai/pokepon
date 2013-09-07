@@ -9,6 +9,7 @@ var server = require('http').createServer(app);
 
 var routes = require('./routes');
 var game = require('./routes/game');
+var soundcloud = require('./routes/soundcloud');
 var http = require('http');
 var path = require('path');
 var io = require('socket.io').listen(server);
@@ -37,35 +38,50 @@ app.get('/games', game.list);
 app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
 
+app.get('/soundcloud', soundcloud.index);
+
 io.sockets.on('connection', function (socket) {
   var myGame;
   var myPlayer;
 
-  socket.emit('welcome', {msg: "welcome"});
-
   socket.on('join', function(data) {
-    console.log(data.id);
     myGame = game.games[data.id];
     if (!myGame) {
+      console.err("game does not exist");
       return;
     }
 
     myPlayer = myGame.createPlayer(socket.id);
+    myPlayer.id = socket.id;
     socket.emit('joined', {
       type: "player",
       id: socket.id
     });
-  });
+
+    if (myGame.players.length === 2) {
+      myGame.start();
+      socket.broadcast.emit('gameStart', {
+        "p1": myPlayer.id,
+        "p2": myPlayer.enemy.id,
+        "gameId": myGame.id
+      });
+    }
+ });
 
   socket.on('start', function() {
     // TODO(thanhhaimai): need to check if both users are ready
     myGame.start();
   });
 
+  socket.on('print', function() {
+    console.log(myGame);
+  });
+
   socket.on('keyPressed', function(data) {
   });
 
   socket.on('attack', function(data) {
+    console.log(myPlayer);
     myPlayer.attack();
   });
 });

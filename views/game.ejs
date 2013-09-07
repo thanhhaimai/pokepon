@@ -3,10 +3,9 @@
   <head>
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/client.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <style>
@@ -16,26 +15,51 @@
   <body>
     <script>
       //w=87,a=65, s=83, d=68
+      var keyboardKeys = [];
+      keyboardKeys['scratch'] = ['firstbasic', 'secondbasic', 'thirdbasic', 'fourthbasic'];
+      keyboardKeys['block'] = ['firstblock', 'secondblock', 'thirdblock', 'fourthblock'];
+      keyboardKeys['paralyze'] = ['firstpara', 'secondpara', 'thirdpara', 'fourthpara'];
+
       var attackDict = [];
       var acceptedKeyCodes = [87, 65, 83, 68];
       attackDict['scratch'] = [87,87,87,87]; //wwww
       attackDict['block'] = [65,65,83,65]; //aasa
       attackDict['paralyze'] = [83,65,87,68]; //sawd
-      timesBasic = 0
+      var timesBasic = 0;
+      var timesBlock = 0;
+      var timesPara = 0;
       var sequenceSoFar = [];
       var count = 0;
+      var client = new Client();
       console.log("count reset to zero");
 
       function successfulPokemonAttack(pokemon, attack) {
         $("div#textbox").text(pokemon + " successfully used " + attack + "!");
+        count = 0;
+        console.log("NEW");
+        sequenceSoFar =[];
+        setTimeout(function(){
+          //jQuery lets you treat all elements of a class as one object
+          $('.keyboard').css('background', '#222');
+          timesBasic = 0;
+          timesBlock = 0;
+          timesPara = 0;
+        }, 100);
       }
 
+      function isSubArray(typedArray, givenMove) {
+        if (typedArray.length == 0) {
+          return true;
+          } else if (typedArray[0] != givenMove[0]) {
+          return false;
+          } else {
+          return true && isSubArray(typedArray.slice(1), givenMove.slice(1));
+        }
+      }
       $(function () {
-        connectGame();
+        client.connect();
 
         $(document).keyup(function (e) {
-          // console.log(e.timeStamp);
-          console.log("entered: " + e.keyCode);
           if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
             return;
           }
@@ -43,25 +67,23 @@
           //console.log(beatTimeStamp);
           if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
             console.log("NOT ACCURATE ENOUGH!");
+            console.log("NEW");
             sequenceSoFar=[];
           }
           sequenceSoFar.push(e.keyCode);
-          if (e.keyCode == attackDict['block'][count]) {
-            console.log("don't reset, iterate count");
+          console.log("SEQSOFAR", sequenceSoFar);
+          if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
+            console.log(isSubArray(sequenceSoFar, attackDict['block']));
+            document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
             count = count + 1;
-            console.log(count, attackDict['block'].length);
             if (count == attackDict['block'].length) {
-              console.log("BLOCK");
-              //call to appropriate func
-              successfulPokemonAttack("Evee", 'BLOCK');
-              sequenceSoFar = [];
-              count = 0;
+              successfulPokemonAttack("Pokepon", 'BLOCK');
             }
           }
-          else if (e.keyCode == attackDict['scratch'][count]) {
-            console.log("second don't reset");
+          else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
+            console.log(isSubArray(sequenceSoFar, attackDict['scratch'])); 
+            document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
             count = count + 1;
-            console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
               console.log("SCRATCH");
               var youpokemonel = $('#youpokemon')[0];
@@ -71,131 +93,100 @@
                 youpokemonel.removeEventListener("transitionend", this);
               }
               youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-                            successfulPokemonAttack("Evee", 'SCRATCH');
-              sequeneSoFar =[];
+              sequenceSoFar =[];
               count = 0;
+              successfulPokemonAttack("Pokepon", 'SCRATCH');
             }
           } 
-          else if (e.keyCode == attackDict['paralyze'][count]) {
-            console.log("third don't reset");
+          else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
+            console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
+            document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
             count = count + 1;
-            console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
-              console.log("PARALYZE");
-              successfulPokemonAttack("Evee", 'PARALYZE');
+              successfulPokemonAttack("Pokepon", 'PARALYZE');
+              }
+            }else {
+              $("div#textbox").text("YOU TYPED AN INVALID MOVE!");
               sequenceSoFar = [];
               count = 0;
+              $('.keyboard').css('background', '#222');
             }
-          }
-
-          else {
-            sequenceSoFar=[];
-            console.log("reset sequence");
-            count = 0;
-          }
-
-
-          //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
-          function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
-            if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
-              return true;
-            }
-            return false;
-          }
-
-          //Stephanie Highlight Code
-          //timeBasic for Scratch Attack:
-          //use Sequence so far to make sure it doesn't have junk before or after
-          if (e.keyCode == 87  && timesBasic == 0){
-            document.getElementById("firstbasic").style.background = "#f00";
-            timesBasic++;
-          }
-          else if (e.keyCode == 87  && timesBasic == 1){
-            document.getElementById("secondbasic").style.background = "#f00";
-            timesBasic++;
-          }
-          else if (e.keyCode == 87 && timesBasic == 2){
-            document.getElementById("thirdbasic").style.background = "#f00";
-            timesBasic++;
-          }
-          else if (e.keyCode == 87 && timesBasic == 3){
-            document.getElementById("fourthbasic").style.background = "#f00";
-            timesBasic++;
-          }
-          console.log("sequenceSoFar: " + sequenceSoFar);
-          // for (var attack in attackDict) {
-
-            //   //if (isEqual(sequenceSoFar, attackDict[attack])) {
-              //   //  console.log("ATTACK!");
-              //   //  sequenceSoFar = [];
-              //   //  setTimeout(function(){document.getElementById("firstbasic").style.background = "#222";
-                //   //  document.getElementById("secondbasic").style.background= "#222";
-                //   //  document.getElementById("thirdbasic").style.background = "#222";
-                //  document.getElementById("fourthbasic").style.background = "#222";
-                //  timesBasic = 0;}, 500);
-
-              function isEqual(arr1, arr2) {
-                console.log("comparing: ", arr1,  arr2);
-                if (arr1.length != arr2.length) {
-                  return false;
-                  for (var i = 0; i < arr1.length; i = i +1) {
-                  }
-                  if (arr1[i] != arr2[i]) {
-                    return false;
-                  }
-                }
-                //console.log("the arrays are equal");
+            //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
+            function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
+              if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
                 return true;
               }
-            });
+              return false;
+            }
+
+            function isEqual(arr1, arr2) {
+              if (arr1.length != arr2.length) {
+                return false;
+                for (var i = 0; i < arr1.length; i = i +1) {
+                }
+                if (arr1[i] != arr2[i]) {
+                  return false;
+                }
+              }
+              return true;
+            }
           });
-        </script>
-        <div align = center>
-          <div class = "character" id = "youcharacter" height = "100%">
-            <div class = "vdivider" id = "vyoudivider">
-            </div>
-            <div id = "username">
-              <h1>
-                melaniec
-              </h1>
-            </div>
-            <div class = "hdivider"></div>
-            <div id = "textbox">
-              A wild pokemon appeared!
-            </div>
-            <div align = "center" style="width: 100%; height: 60%;">
-              <img class = "pokemon" id = "youpokemon" src = "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"></img>
-            </div>
-            <div align = right>
-              <div class = "healthbar" id = "youhealthbar">
-                <div class = "healthy" id = "youhealthy"></div>
-              </div>
-            </div>
-            <div class = "hdivider"></div>
-            <div id = "moves">
-              <h2><u>moves</u></h2>
-              basic attack: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
+        });
+      </script>
+      <div align = center>
+        <div class = "character" id = "youcharacter" height = "100%">
+          <div class = "vdivider" id = "vyoudivider">
+          </div>
+          <div id = "username">
+            <h1>
+              melaniec
+            </h1>
+          </div>
+          <div class = "hdivider"></div>
+          <div id = "textbox">
+            A wild pokemon appeared!
+          </div>
+          <div align = "center" style="width: 100%; height: 60%;">
+            <img class = "pokemon" id = "youpokemon" src = "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"></img>
+          </div>
+          <div align = right>
+            <div class = "healthbar" id = "youhealthbar">
+              <div class = "healthy" id = "youhealthy"></div>
             </div>
           </div>
-          <div class = "character" id = "opponentcharacter">
-            <div class = "vdivider" id = "vopponentdivider">
-            </div>
-            <div id = "username">
-              <h1>
-                sdjidjev
-              </h1>
-            </div>
-            <div class = "hdivider"></div>
-            <div align = "center" style="width: 100%; height: 60%;">
-              <img class = "pokemon" id = "opponentpokemon" src = "http://static.tumblr.com/yeaa5gt/i0imngwcd/359.gif"></img>
-            </div>
-            <div align = left>
-              <div class = "healthbar" id = "opponenthealthbar">
-                <div class = "healthy" id = "opponenthealthy"></div>
-              </div>
-            </div>
-            <div class = "hdivider"></div>
+          <div class = "hdivider"></div>
+          <div id = "moves">
+            <h2><u>moves</u></h2>
+            scratch: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
+            <br>
+            <br>
+            block: <div class = "keyboard" id = "firstblock">A</div><div class = "keyboard" id = "secondblock">A</div><div class = "keyboard" id = "thirdblock">S</div><div class = "keyboard" id = "fourthblock">A</div>
+            <br>
+            <br>
+            paralyze: <div class = "keyboard" id = "firstpara">S</div><div class = "keyboard" id = "secondpara">A</div><div class = "keyboard" id = "thirdpara">W</div><div class = "keyboard" id = "fourthpara">D</div>
+            <br>
+            <br>
           </div>
         </div>
-      </body>
-    </html>
+        <div class = "character" id = "opponentcharacter">
+          <div class = "vdivider" id = "vopponentdivider">
+          </div>
+          <div id = "username">
+            <h1>
+              sdjidjev
+            </h1>
+          </div>
+          <div class = "hdivider"></div>
+          <div align = "center" style="width: 100%; height: 60%;">
+            <img class = "pokemon" id = "opponentpokemon" src = "http://static.tumblr.com/yeaa5gt/i0imngwcd/359.gif"></img>
+          </div>
+          <div align = left>
+            <div class = "healthbar" id = "opponenthealthbar">
+              <div class = "healthy" id = "opponenthealthy"></div>
+            </div>
+          </div>
+          <div class = "hdivider"></div>
+        </div>
+      </div>
+    </body>
+  </html>
