@@ -1,5 +1,7 @@
-h1 {
+body {
   font-family: 'Droid Sans', sans-serif;
+}
+h1 {
   font-weight: 400;
   font-size: 50px;
   padding-top: 0px;
@@ -14,6 +16,12 @@ h1 {
   float: left;
   background-color: #BBFBBB;
   top: 0;
+}
+#textbox {
+  text-align: left;
+  padding: 20px;
+  float: right;
+  background-color: #ddfbdd;
 }
 #pokemon {
   margin-top: 30px;
