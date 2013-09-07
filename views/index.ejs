@@ -3,9 +3,40 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <script>
+      var attack = [87,87,87,87]; //W key
+      var sequenceSoFar = [];
+      $(function () {
+        $(document).keyup(function (e) {
+          console.log(e.keyCode);
+          sequenceSoFar.push(e.keyCode);
+          console.log(sequenceSoFar);
+          if (isEqual(sequenceSoFar, attack)) {
+            console.log("ATTACK!");
+            sequenceSoFar = [];
+          }
+        });
+      });
+
+      function isEqual(arr1, arr2) {
+        console.log(arr1, arr2);
+        if (arr1.length != arr2.length) {
+          return false;
+        }
+        for (var i = 0; i < arr1.length; i = i +1) {
+          if (arr1[i] != arr2[i]) {
+            return false;
+          }
+        }
+        console.log("the arrays are equal");
+        return true;
+      }
+
+    </script>
   </body>
 </html>
