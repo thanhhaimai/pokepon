@@ -3,11 +3,49 @@
   <head>
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="/javascripts/client.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   </head>
   <body>
     <div align = center>
-      <a href="/game/create">Start a new game</a>
+      <div class = "character" id = "youcharacter">
+        <div class = "vdivider" id = "vyoudivider">
+        </div>
+        <div id = "username">
+          <h1>
+            myUsername
+          </h1>
+        </div>
+        <div class = "hdivider">
+        </div>
+        <div align = center>
+        <img id = "pokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
+    </div>
+        my stuff
+
+      </div>
+      <div class = "character" id = "opponentcharacter">
+        <div class = "vdivider" id = "vopponentdivider">
+        </div>
+        <div id = "username">
+          <h1>
+            opponentUsername
+          </h1>
+        </div>
+        <div class = "hdivider">
+        </div>
+        <div align = center>
+        <img id = "pokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
+    </div>
+        my stuff
+        <br>
+        yes
+        <br>
+        my stuff
+      </div>
+
     </div>
   </body>
 </html>
