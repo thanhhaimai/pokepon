@@ -26,7 +26,7 @@ exports.view = function(req, res) {
   var game = games[id];
   if (!game) {
     console.log('Attempt to view a non-existant game');
-    res.redirect('/index');
+    res.redirect('/');
   }
 
   console.log("viewing a game: " + id);
