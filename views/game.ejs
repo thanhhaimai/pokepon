@@ -18,7 +18,7 @@
       var keyboardKeys = [];
       keyboardKeys['scratch'] = ['firstbasic', 'secondbasic', 'thirdbasic', 'fourthbasic'];
       keyboardKeys['block'] = ['firstblock', 'secondblock', 'thirdblock', 'fourthblock'];
-      keyboardKeys['paralyze'] = ['firstpara', 'secondpara', 'thirdpara'];
+      keyboardKeys['paralyze'] = ['firstpara', 'secondpara', 'thirdpara', 'fourthpara'];
 
       var attackDict = [];
       var acceptedKeyCodes = [87, 65, 83, 68];
@@ -30,8 +30,6 @@
       var timesPara = 0;
       var sequenceSoFar = [];
       var count = 0;
-      var highlightCount = 0;
-      //      console.log("count reset to zero");
 
       function successfulPokemonAttack(pokemon, attack) {
         $("div#textbox").text(pokemon + " successfully used " + attack + "!");
@@ -44,11 +42,10 @@
           timesBasic = 0;
           timesBlock = 0;
           timesPara = 0;
-        }, 500);
+        }, 100);
       }
 
       function isSubArray(typedArray, givenMove) {
-        console.log("issubarray called with a typedArray of _ and givenMove of", typedArray, givenMove);
         if (typedArray.length == 0) {
           return true;
           } else if (typedArray[0] != givenMove[0]) {
@@ -59,8 +56,6 @@
       }
       $(function () {
         $(document).keyup(function (e) {
-          // console.log(e.timeStamp);
-          //console.log("entered: " + e.keyCode);
           if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
             return;
           }
@@ -77,40 +72,31 @@
             console.log(isSubArray(sequenceSoFar, attackDict['block']));
             document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
             count = count + 1;
-            //console.log(count, attackDict['block'].length);
             if (count == attackDict['block'].length) {
-              // console.log("BLOCK");
-              //call to appropriate func
               successfulPokemonAttack("Pokepon", 'BLOCK');
             }
           }
           else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
-            //console.log("second don't reset");
             console.log(isSubArray(sequenceSoFar, attackDict['scratch'])); 
             document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
             count = count + 1;
-            //console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
-              //console.log("SCRATCH");
               successfulPokemonAttack("Pokepon", 'SCRATCH');
             }
           } 
           else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
-            //console.log("third don't reset");
             console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
             document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
             count = count + 1;
-            //console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
-              //console.log("PARALYZE");
               successfulPokemonAttack("Pokepon", 'PARALYZE');
-              }// else {
-              //console.log("NEW");
-              //sequenceSoFar=[];
-              //console.log("reset sequence");
-              //count = 0;
+              }
+            }else {
+              $("div#textbox").text("YOU TYPED AN INVALID MOVE!");
+              sequenceSoFar = [];
+              count = 0;
+              $('.keyboard').css('background', '#222');
             }
-
             //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
             function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
               if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
@@ -119,13 +105,7 @@
               return false;
             }
 
-            //Stephanie Highlight Code
-            //timeBasic for Scratch Attack:
-            //use Sequence so far to make sure it doesn't have junk before or after
-            //document.getElementById("firstbasic").style.background = "#f00";
-
             function isEqual(arr1, arr2) {
-              //console.log("comparing: ", arr1,  arr2);
               if (arr1.length != arr2.length) {
                 return false;
                 for (var i = 0; i < arr1.length; i = i +1) {
@@ -134,7 +114,6 @@
                   return false;
                 }
               }
-              //console.log("the arrays are equal");
               return true;
             }
           });
