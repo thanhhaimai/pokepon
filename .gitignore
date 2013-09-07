@@ -11,6 +11,11 @@ pids
 logs
 results
 
+# audio files
+audio/*
+!audio/README.md
+
+# node
 npm-debug.log
 node_modules
 
