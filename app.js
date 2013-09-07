@@ -9,6 +9,7 @@ var server = require('http').createServer(app);
 
 var routes = require('./routes');
 var game = require('./routes/game');
+var soundcloud = require('./routes/soundcloud');
 var http = require('http');
 var path = require('path');
 var io = require('socket.io').listen(server);
@@ -36,6 +37,8 @@ app.get('/', game.list);
 app.get('/games', game.list);
 app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
+
+app.get('/soundcloud', soundcloud.index);
 
 io.sockets.on('connection', function (socket) {
   var myGame;
