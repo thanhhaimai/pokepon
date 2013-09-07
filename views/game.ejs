@@ -20,6 +20,11 @@
       var sequenceSoFar = [];
       var count = 0;
       console.log("count reset to zero");
+      
+      function successfulPokemonAttack(pokemon, attack) {
+        $("div#textbox").text(pokemon + " successfully used " + attack + "!");
+      }
+
       $(function () {
         $(document).keyup(function (e) {
           // console.log(e.timeStamp);
@@ -41,6 +46,7 @@
             if (count == attackDict['block'].length) {
               console.log("BLOCK");
               //call to appropriate func
+              successfulPokemonAttack("Evee", 'BLOCK');
               sequenceSoFar = [];
               count = 0;
             }
@@ -51,6 +57,7 @@
               console.log(count, attackDict['scratch'].length);
               if (count == attackDict['scratch'].length) {
                 console.log("SCRATCH");
+                successfulPokemonAttack("Evee", 'SCRATCH');
                 sequeneSoFar =[];
                 count = 0;
               }
@@ -61,6 +68,7 @@
             console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
               console.log("PARALYZE");
+              successfulPokemonAttack("Evee", 'PARALYZE');
               sequenceSoFar = [];
               count = 0;
             }
@@ -72,48 +80,9 @@
               count = 0;
               }
 
-            // for (var attack in attackDict) {
-
-
-              // if (isEqual(sequenceSoFar, attackDict[attack])) {
-                // console.log("ATTACK!");
-                // console.log(attack);
-                // $("div#textbox").text("Pokemon used " + attack + "!");
-                // sequenceSoFar=[];
-                // }
-
-              //below is a bit hacky for now, will have to reset sequence another way later on
-              //the problem is you have to type another key that is registers to have more (if its equal, it clears w/o checking later combos)
-              //   if (sequenceSoFar.length > attackDict[attack].length) {
-                //  sequenceSoFar=[];
-                //console.log("hackyly clearing the array");
-                // }
-              // }
           });
         });
-        function isEqual(arr1, arr2) { 
-          if (arr1.length == 0 && arr2.length == 0) {
-            return true;
-            } else if (arr1[0] != arr2[0]) {
-            return false; 
-            } else if (arr1[0] == arr2[0]) {
-            return true && isEqual(arr1.slice(1), arr2.slice(1)); 
-        } else { console.log("should not have reached this"); return false; }}
-        /*
-        function isEqual(arr1, arr2) {
-          console.log("comparing: ", arr1,  arr2);
-          if (arr1.length != arr2.length) {
-            return false;
-            //}
-          for (var i = 0; i < arr1.length; i = i +1) {
-            if (arr1[i] != arr2[i]) {
-              return false;
-            }
-          }
-          //console.log("the arrays are equal");
-          return true;
-        }
-        */
+
         //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
         function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
           if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
