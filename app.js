@@ -44,14 +44,20 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('join', function(data) {
     myGame = game.games[data.gameId];
-    myPlayer = myGame.createPlayer();
-    socket.emit('joined', {type: "player"});
+    myPlayer = myGame.createPlayer(socket);
+    socket.emit('joined', {type: "player", room: "123"});
+  });
+
+  socket.on('start', function() {
+    // TODO(thanhhaimai): need to check if both users are ready
+    myGame.start();
   });
 
   socket.on('keyPressed', function(data) {
   });
 
   socket.on('attack', function(data) {
+    myPlayer.attack();
   });
 });
 

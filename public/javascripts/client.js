@@ -14,3 +14,4 @@ var connectGame = function () {
     console.log(data);
   });
 }
+/ }
