@@ -13,7 +13,7 @@ Player = function(game, playerRef, playerId) {
 }
 
 Player.prototype.attack = function() {
-  this.enemy.damage(10);
+  this.enemy.pokepon.damage(10);
 }
 
 module.exports = Player;

@@ -1,6 +1,7 @@
 Pokepon = function(index, pokeponRef) {
   this.HP = 100;
-  pokeponRef.set({
+  this.pokeponRef = pokeponRef;
+  this.pokeponRef.set({
     name: "no name",
     maxHP: 100,
     HP: 100,
@@ -10,7 +11,7 @@ Pokepon = function(index, pokeponRef) {
 
 Pokepon.prototype.damage = function(dmg) {
   this.HP -= dmg;
-  pokeponRef.child('HP').set(this.HP);
+  this.pokeponRef.child('HP').set(this.HP);
 }
 
 module.exports = Pokepon;
