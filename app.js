@@ -52,15 +52,20 @@ io.sockets.on('connection', function (socket) {
     }
 
     myPlayer = myGame.createPlayer(socket.id);
-
-    // if (myGame.players.length === 2) {
-    //   myGame.start();
-    // }
-
+    myPlayer.id = socket.id;
     socket.emit('joined', {
       type: "player",
       id: socket.id
     });
+
+    if (myGame.players.length === 2) {
+      myGame.start();
+      socket.broadcast.emit('gameStart', {
+        "p1": myPlayer.id,
+        "p2": myPlayer.enemy.id,
+        "gameId": myGame.id
+      });
+    }
  });
 
   socket.on('start', function() {

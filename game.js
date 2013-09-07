@@ -27,7 +27,7 @@ Game.prototype.isFull = function() {
 Game.prototype.createPlayer = function(socketId) {
   console.log(this.gameRef);
   console.log(socketId);
-  var player = new Player(this, this.gameRef.child(socketId), this.players.length + 1);
+  var player = new Player(this.gameRef.child(socketId), this.players.length);
   this.players.push(player);
   return player;
 }
