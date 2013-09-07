@@ -8,67 +8,6 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <script>
-      //w=87,a=65, s=83, d=68
-      var attackDict = [];
-      var acceptedKeyCodes = [87, 65, 83, 68];
-      attackDict['scratch'] = [87,87,87,87];
-      attackDict['block'] = [65,65,83,65];
-      attackDict['paralyze'] = [83,65,87,68];
-      var sequenceSoFar = [];
-      $(function () {
-        $(document).keyup(function (e) {
-          // console.log(e.timeStamp);
-          console.log("entered: " + e.keyCode);
-          if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
-            return;
-          }
-          var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-          //console.log(beatTimeStamp);
-          if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
-            console.log("NOT ACCURATE ENOUGH!");
-            sequenceSoFar=[];
-          }
-          sequenceSoFar.push(e.keyCode);
-          console.log("sequenceSoFar: " + sequenceSoFar);
-          for (var attack in attackDict) {
-
-            if (isEqual(sequenceSoFar, attackDict[attack])) {
-              console.log("ATTACK!");
-              sequenceSoFar = [];
-            }
-            //below is a bit hacky for now, will have to reset sequence another way later on
-            //the problem is you have to type another key that is registers to have more (if its equal, it clears w/o checking later combos)
-            if (sequenceSoFar.length > attackDict[attack].length) {
-              sequenceSoFar=[];
-              console.log("hackyly clearing the array");
-            }
-          }
-        });
-      });
-
-      function isEqual(arr1, arr2) {
-        console.log("comparing: ", arr1,  arr2);
-        if (arr1.length != arr2.length) {
-          return false;
-        }
-        for (var i = 0; i < arr1.length; i = i +1) {
-          if (arr1[i] != arr2[i]) {
-            return false;
-          }
-        }
-        //console.log("the arrays are equal");
-        return true;
-      }
-      //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
-      function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
-        if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
-          return true;
-        }
-        return false;
-      }
-
-    </script>
     <div align = center>
       <a href="/game/create">Start a new game</a>
     </div>
