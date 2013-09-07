@@ -1,12 +1,14 @@
 var Moniker = require('moniker');
 
 var Firebase = require('firebase');
+var dataRef = new Firebase('https://pokepon.firebaseio.com');
 
-ear Game = require('../game.js');
+var Game = require('../game.js');
 var Pokepon = require('../pokepon.js');
-var Player = require('../players.js');
+var Player = require('../player.js');
 
-exports.games = {};
+var games = {};
+exports.games = games;
 
 exports.list = function(req, res) {
   res.render('index', {"games": games});
@@ -14,7 +16,8 @@ exports.list = function(req, res) {
 
 exports.create = function(req, res) {
   var id = Moniker.choose();
-  games[id] = new Game(id);
+  var gameRef = dataRef.child('games').child(id);
+  games[id] = new Game(id, gameRef);
   res.redirect('/games/' + id);
 }
 

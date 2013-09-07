@@ -1,8 +1,9 @@
-var Player = requires('./player.js');
+var Player = require('./player.js');
 
-Game = function (id) {
+Game = function (gameRef, id) {
   this.players = new Array();
   this.id = id;
+  this.gameRef = gameRef;
 }
 
 Game.prototype.start = function() {
@@ -18,8 +19,8 @@ Game.prototype.isFull = function() {
   return pokepons.length >= 2;
 }
 
-Game.prototype.createPlayer = function() {
-  var player = new Player();
+Game.prototype.createPlayer = function(socketId) {
+  var player = new Player(this, gameRef.child(socketId), this.players.length + 1);
   this.players.push(player);
   return player;
 }

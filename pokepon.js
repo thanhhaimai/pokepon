@@ -1,13 +1,16 @@
-Pokepon = function(index, configVal) {
-  this.name = "no name";
-  this.sequence = [];
-  this.maxHP = configVal.maxHP;
-  this.HP = this.maxHP;
-  if (index === 0) {
-    this.imageUrl = "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif";
-  } else {
-    this.imageUrl = "http://static.tumblr.com/yeaa5gt/i0imngwcd/359.gif";
-  }
+Pokepon = function(index, pokeponRef) {
+  this.HP = 100;
+  pokeponRef.set({
+    name: "no name",
+    maxHP: 100,
+    HP: 100,
+    imageUrl: "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"
+  });
+}
+
+Pokepon.prototype.damage = function(dmg) {
+  this.HP -= dmg;
+  pokeponRef.child('HP').set(this.HP);
 }
 
 module.exports = Pokepon;

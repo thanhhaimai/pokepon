@@ -38,14 +38,18 @@ app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('welcome', {msg: "welcome", id: socket.id});
   var myGame;
   var myPlayer;
 
+  socket.emit('welcome', {msg: "welcome"});
+
   socket.on('join', function(data) {
     myGame = game.games[data.gameId];
-    myPlayer = myGame.createPlayer(socket);
-    socket.emit('joined', {type: "player", room: "123"});
+    myPlayer = myGame.createPlayer();
+    socket.emit('joined', {
+      type: "player",
+      id: socket.id
+    });
   });
 
   socket.on('start', function() {

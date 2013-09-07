@@ -1,3 +1,5 @@
+var dataRef;
+
 var connectGame = function () {
   var socket = io.connect('http://localhost:3000');
 
@@ -11,7 +13,7 @@ var connectGame = function () {
 
   socket.on('joined', function(data) {
     console.log('joined as ' + data.type);
-    console.log(data);
+    dataRef = new Firebase(data.firebase);
   });
 }
 / }
