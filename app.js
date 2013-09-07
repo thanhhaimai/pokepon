@@ -44,31 +44,39 @@ io.sockets.on('connection', function (socket) {
   var myGame;
   var myPlayer;
 
-  socket.emit('welcome', {msg: "welcome"});
-
   socket.on('join', function(data) {
-    console.log(data.id);
     myGame = game.games[data.id];
     if (!myGame) {
+      console.err("game does not exist");
       return;
     }
 
     myPlayer = myGame.createPlayer(socket.id);
+
+    // if (myGame.players.length === 2) {
+    //   myGame.start();
+    // }
+
     socket.emit('joined', {
       type: "player",
       id: socket.id
     });
-  });
+ });
 
   socket.on('start', function() {
     // TODO(thanhhaimai): need to check if both users are ready
     myGame.start();
   });
 
+  socket.on('print', function() {
+    console.log(myGame);
+  });
+
   socket.on('keyPressed', function(data) {
   });
 
   socket.on('attack', function(data) {
+    console.log(myPlayer);
     myPlayer.attack();
   });
 });

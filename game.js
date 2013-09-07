@@ -4,11 +4,16 @@ Game = function (gameRef, id) {
   this.players = new Array();
   this.gameRef = gameRef;
   this.id = id;
+  this.isStarted = false;
 }
 
 Game.prototype.start = function() {
-  this.players[0].enemy = this.players[1];
-  this.players[1].enemy = this.players[0];
+  if (!this.isStarted) {
+    console.log("started");
+    this.isStarted = true;
+    this.players[0].enemy = this.players[1];
+    this.players[1].enemy = this.players[0];
+  }
 }
 
 Game.prototype.stop = function() {
@@ -16,7 +21,7 @@ Game.prototype.stop = function() {
 }
 
 Game.prototype.isFull = function() {
-  return pokepons.length >= 2;
+  return this.players.length >= 2;
 }
 
 Game.prototype.createPlayer = function(socketId) {

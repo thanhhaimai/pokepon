@@ -30,6 +30,8 @@
       var timesPara = 0;
       var sequenceSoFar = [];
       var count = 0;
+      var client = new Client();
+      console.log("count reset to zero");
 
       function successfulPokemonAttack(pokemon, attack) {
         $("div#textbox").text(pokemon + " successfully used " + attack + "!");
@@ -55,6 +57,8 @@
         }
       }
       $(function () {
+        client.connect();
+
         $(document).keyup(function (e) {
           if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
             return;

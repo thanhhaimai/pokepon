@@ -1,23 +1,31 @@
-var pokeponRef;
-var gameId;
 var baseUrl = 'https://pokepon.firebaseio.com/';
+Client = function() {
+  this.pokeponRef;
+  this.gameId;
+  this.socket;
+}
 
-var connectGame = function () {
-  var socket = io.connect('http://localhost:3000');
+Client.prototype.connect = function() {
+  var self = this;
+  var url = window.location.href;
+  self.gameId = url.substr(url.lastIndexOf('/') + 1);
+  console.log(this.gameId);
 
-  socket.on('welcome', function(data) {
-    var url = window.location.href;
-    gameId = url.substr(url.lastIndexOf('/') + 1);
-    socket.emit('join', {id: gameId});
-  });
+  self.socket = io.connect('http://158.130.159.141:3000');
 
-  socket.on('joined', function(data) {
-    var url = baseUrl +  "games/" + gameId + '/' + data.id + '/pokepon';
+  self.socket.on('joined', function(data) {
+    var url = baseUrl +  "games/" + self.gameId + '/' + data.id + '/pokepon';
     console.log(url);
-    pokeponRef = new Firebase(url);
-    pokeponRef.on('value', function(snapshot) {
-      pokepon = snapshot.val();
-      $('#youhealthy').width(pokepon.HP + "%");
+    self.pokeponRef = new Firebase(url);
+    self.pokeponRef.on('value', function(snapshot) {
+      self.pokepon = snapshot.val();
+      $('#youhealthy').width(self.pokepon.HP + "%");
     });
   });
+
+  self.socket.emit('join', {id: self.gameId});
+}
+
+Client.prototype.attack = function() {
+  this.socket.emit('attack', {type: "basic"});
 }
