@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.3.7",
     "ejs": "*",
+    "firebase": "*",
     "less-middleware": "*"
   }
 }
