@@ -23,7 +23,7 @@ h1 {
   float: right;
   background-color: #ddfbdd;
 }
-#pokemon {
+.pokemon {
   margin-top: 30px;
   position: relative;
   height: 20em;
