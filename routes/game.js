@@ -10,5 +10,5 @@ exports.list = function(req, res){
 exports.create = function(req, res) {
   // create a game
   console.log("creating a game");
-  res.render('index');
+  res.render('game');
 }
