@@ -3,10 +3,9 @@
   <head>
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/client.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <style>
@@ -24,18 +23,23 @@
       timesBasic = 0
       var sequenceSoFar = [];
       var count = 0;
-      console.log("count reset to zero");
+      //      console.log("count reset to zero");
 
       function successfulPokemonAttack(pokemon, attack) {
         $("div#textbox").text(pokemon + " successfully used " + attack + "!");
+        count = 0;
+        sequenceSoFar =[];
+        setTimeout(function(){
+          //jQuery lets you treat all elements of a class as one object
+          $('.keyboard').css('background', '#222');
+          timesBasic = 0;
+        }, 500);
       }
 
       $(function () {
-        connectGame();
-
         $(document).keyup(function (e) {
           // console.log(e.timeStamp);
-          console.log("entered: " + e.keyCode);
+          //console.log("entered: " + e.keyCode);
           if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
             return;
           }
@@ -47,43 +51,35 @@
           }
           sequenceSoFar.push(e.keyCode);
           if (e.keyCode == attackDict['block'][count]) {
-            console.log("don't reset, iterate count");
+            //console.log("don't reset, iterate count");
             count = count + 1;
-            console.log(count, attackDict['block'].length);
+            //console.log(count, attackDict['block'].length);
             if (count == attackDict['block'].length) {
-              console.log("BLOCK");
+              // console.log("BLOCK");
               //call to appropriate func
               successfulPokemonAttack("Evee", 'BLOCK');
-              sequenceSoFar = [];
-              count = 0;
             }
           }
           else if (e.keyCode == attackDict['scratch'][count]) {
-            console.log("second don't reset");
+            //console.log("second don't reset");
             count = count + 1;
-            console.log(count, attackDict['scratch'].length);
+            //console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
-              console.log("SCRATCH");
+              //console.log("SCRATCH");
               successfulPokemonAttack("Evee", 'SCRATCH');
-              sequeneSoFar =[];
-              count = 0;
             }
           } 
           else if (e.keyCode == attackDict['paralyze'][count]) {
-            console.log("third don't reset");
+            //console.log("third don't reset");
             count = count + 1;
-            console.log(count, attackDict['scratch'].length);
+            //console.log(count, attackDict['scratch'].length);
             if (count == attackDict['scratch'].length) {
-              console.log("PARALYZE");
+              //console.log("PARALYZE");
               successfulPokemonAttack("Evee", 'PARALYZE');
-              sequenceSoFar = [];
-              count = 0;
             }
-          }
-
-          else {
+            } else {
             sequenceSoFar=[];
-            console.log("reset sequence");
+            //console.log("reset sequence");
             count = 0;
           }
 
@@ -101,6 +97,7 @@
           //use Sequence so far to make sure it doesn't have junk before or after
           if (e.keyCode == 87  && timesBasic == 0){
             document.getElementById("firstbasic").style.background = "#f00";
+            console.log("keycode and timebasic 1 ", sequenceSoFar);
             timesBasic++;
           }
           else if (e.keyCode == 87  && timesBasic == 1){
@@ -115,20 +112,11 @@
             document.getElementById("fourthbasic").style.background = "#f00";
             timesBasic++;
           }
-          console.log("sequenceSoFar: " + sequenceSoFar);
-          // for (var attack in attackDict) {
 
-            //   //if (isEqual(sequenceSoFar, attackDict[attack])) {
-              //   //  console.log("ATTACK!");
-              //   //  sequenceSoFar = [];
-              //   //  setTimeout(function(){document.getElementById("firstbasic").style.background = "#222";
-                //   //  document.getElementById("secondbasic").style.background= "#222";
-                //   //  document.getElementById("thirdbasic").style.background = "#222";
-                //  document.getElementById("fourthbasic").style.background = "#222";
-                //  timesBasic = 0;}, 500);
+          console.log("sequenceSoFar: " + sequenceSoFar);
 
               function isEqual(arr1, arr2) {
-                console.log("comparing: ", arr1,  arr2);
+                //console.log("comparing: ", arr1,  arr2);
                 if (arr1.length != arr2.length) {
                   return false;
                   for (var i = 0; i < arr1.length; i = i +1) {
@@ -167,7 +155,15 @@
             <div class = "hdivider"></div>
             <div id = "moves">
               <h2><u>moves</u></h2>
-              basic attack: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
+              scratch: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
+              <br>
+              <br>
+              block: <div class = "keyboard" id = "firstblock">A</div><div class = "keyboard" id = "secondblock">A</div><div class = "keyboard" id = "thirdblock">S</div><div class = "keyboard" id = "fourthblock">A</div>
+              <br>
+              <br>
+              paralyze: <div class = "keyboard" id = "firstpara">S</div><div class = "keyboard" id = "secondpara">A</div><div class = "keyboard" id = "thirdpara">W</div><div class = "keyboard" id = "fourthpara">D</div>
+              <br>
+              <br>
             </div>
           </div>
           <div class = "character" id = "opponentcharacter">
