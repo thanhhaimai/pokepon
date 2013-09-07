@@ -2,8 +2,8 @@ var Player = require('./player.js');
 
 Game = function (gameRef, id) {
   this.players = new Array();
-  this.id = id;
   this.gameRef = gameRef;
+  this.id = id;
 }
 
 Game.prototype.start = function() {
@@ -20,7 +20,9 @@ Game.prototype.isFull = function() {
 }
 
 Game.prototype.createPlayer = function(socketId) {
-  var player = new Player(this, gameRef.child(socketId), this.players.length + 1);
+  console.log(this.gameRef);
+  console.log(socketId);
+  var player = new Player(this, this.gameRef.child(socketId), this.players.length + 1);
   this.players.push(player);
   return player;
 }

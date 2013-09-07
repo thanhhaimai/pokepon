@@ -44,8 +44,9 @@ io.sockets.on('connection', function (socket) {
   socket.emit('welcome', {msg: "welcome"});
 
   socket.on('join', function(data) {
-    myGame = game.games[data.gameId];
-    myPlayer = myGame.createPlayer();
+    console.log(data.id);
+    myGame = game.games[data.id];
+    myPlayer = myGame.createPlayer(socket.id);
     socket.emit('joined', {
       type: "player",
       id: socket.id

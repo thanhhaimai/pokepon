@@ -9,7 +9,7 @@ Player = function(game, playerRef, playerId) {
   this.game = game;
   this.playerRef = playerRef;
   var playerId = playerId;
-  this.pokepon = new Pokepon(playerIndex, this.playerRef.child('pokepon'));
+  this.pokepon = new Pokepon(playerId, this.playerRef.child('pokepon'));
 }
 
 Player.prototype.attack = function() {

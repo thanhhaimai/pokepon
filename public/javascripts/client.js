@@ -16,4 +16,3 @@ var connectGame = function () {
     dataRef = new Firebase(data.firebase);
   });
 }
-/ }
