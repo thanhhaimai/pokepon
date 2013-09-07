@@ -15,6 +15,7 @@
       var acceptedKeyCodes = [87, 65, 83, 68];
       attackDict['scratch'] = [87,87,87,87];
       attackDict['block'] = [65,65,83,65];
+      attackDict['paralyze'] = [83,65,87,68];
       var sequenceSoFar = [];
       $(function () {
         $(document).keyup(function (e) {
@@ -38,6 +39,7 @@
               sequenceSoFar = [];
             }
             //below is a bit hacky for now, will have to reset sequence another way later on
+            //the problem is you have to type another key that is registers to have more (if its equal, it clears w/o checking later combos)
             if (sequenceSoFar.length > attackDict[attack].length) {
               sequenceSoFar=[];
               console.log("hackyly clearing the array");
