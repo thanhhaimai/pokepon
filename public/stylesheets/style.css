@@ -1,5 +1,5 @@
 body {
-  font-family: 'Droid Sans', sans-serif;
+  font-family: 'Ropa Sans', sans-serif;
 }
 h1 {
   font-weight: 400;
@@ -7,7 +7,7 @@ h1 {
   padding-top: 0px;
   -webkit-margin-before: 0px;
   -webkit-margin-after: 0px;
-  color: #222;
+  color: #252;
 }
 .character {
   position: fixed;
@@ -21,12 +21,39 @@ h1 {
   text-align: left;
   padding: 20px;
   float: right;
-  background-color: #ddfbdd;
+  background-color: #DDFBDD;
+  color: #252;
 }
 .pokemon {
   margin-top: 30px;
   position: relative;
   height: 20em;
+}
+.healthbar {
+  margin: 10px;
+  background-color: #ED1C24;
+  width: 15em;
+  height: 20px;
+  border: solid 1px #595;
+}
+#youhealthbar {
+  margin-right: 20px;
+}
+.healthy {
+  position: relative;
+  background-color: #50C878;
+  height: 20px;
+}
+#youhealthy {
+  width: 70%;
+  float: left;
+}
+#opponenthealthy {
+  width: 60%;
+  float: right;
+}
+#opponenthealthbar {
+  margin-left: 20px;
 }
 #username {
   top: 0;
@@ -51,6 +78,8 @@ h1 {
   height: 6px;
   width: 100%;
   background-color: #A9BA9D;
+  float: left;
+  position: absolute;
 }
 #vyoudivider {
   float: right;
