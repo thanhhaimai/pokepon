@@ -9,6 +9,8 @@
     "express": "3.3.7",
     "ejs": "*",
     "firebase": "*",
+    "socket.io": "*",
+    "moniker": "*",
     "less-middleware": "*"
   }
 }

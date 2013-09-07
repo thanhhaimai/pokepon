@@ -1,28 +1,37 @@
-
-/*
- * GET games listing.
- */
-
 var Firebase = require('firebase');
-var dataRef = new Firebase('https://pokepon.firebaseio.com');
-var gameRef = dataRef.child('games');
+var Moniker = require('moniker');
 
 var Game = require('../game.js');
-var game = new Game();
+var Pokepon = require('../pokepon.js');
+
+var dataRef = new Firebase('https://pokepon.firebaseio.com');
+var gamesRef = dataRef.child('games');
+var pokeponsRef = gamesRef.child('pokepons');
+
+var gameUniqueIndex = 0;
+var gameRef = gamesRef.child(gameUniqueIndex);
+
+var games = {};
 
 exports.list = function(req, res) {
-  res.render('index');
+  res.render('index', {"games": games});
 };
 
 exports.create = function(req, res) {
-  // create a game
-  console.log("creating a game");
-  gameRef.push(game, function(err) {
-    if (err) {
-      console.log("error creating game");
-    } else {
-      console.log("created a game name " );
-    }
-  });
-  res.render('game');
+  var id = Moniker.choose();
+  games[id] = new Game(id);
+  res.redirect('/games/' + id);
+  console.log("created game: " + id);
+}
+
+exports.view = function(req, res) {
+  var id = req.params.id;
+  var game = games[id];
+  if (!game) {
+    console.log('Attempt to view a non-existant game');
+    res.redirect('/index');
+  }
+
+  console.log("viewing a game: " + id);
+  res.render('game', game);
 }

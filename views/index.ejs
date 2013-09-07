@@ -7,7 +7,11 @@
   </head>
   <body>
     <div align = center>
-      <a href="/game/create">Start a new game</a>
+      <a href="/games/create">Start a new game</a>
     </div>
+    <ul>
+      <% for (var key in games) { %>
+        <li><%= key %></li>
+      <% } %>
   </body>
 </html>
