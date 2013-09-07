@@ -12,12 +12,19 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <script>
-      var attack = [87,87,87,87]; //W key
+      //w=87,a=65, s=83, d=68
+      var attackDict = [];
+      var acceptedKeyCodes = [87, 65, 83, 68];
+      attackDict['scratch'] = [87,87,87,87];
+      attackDict['block'] = [65,65,83,65];
       var sequenceSoFar = [];
       $(function () {
         $(document).keyup(function (e) {
-          //console.log(e.timeStamp);
-          //console.log(e.keyCode);
+          // console.log(e.timeStamp);
+          console.log("entered: " + e.keyCode);
+          if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
+            return;
+          }
           var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
           //console.log(beatTimeStamp);
           if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
@@ -25,21 +32,24 @@
             sequenceSoFar=[];
           }
           sequenceSoFar.push(e.keyCode);
-         // console.log(sequenceSoFar);
-          if (isEqual(sequenceSoFar, attack)) {
-            console.log("ATTACK!");
-            sequenceSoFar = [];
-          }
-          //below is a bit hacky for now, will have to reset sequence another way later on
-          if (sequenceSoFar.length > attack.length) {
-            sequenceSoFar=[];
-          }
+          console.log("sequenceSoFar: " + sequenceSoFar);
+          for (var attack in attackDict) {
 
+            if (isEqual(sequenceSoFar, attackDict[attack])) {
+              console.log("ATTACK!");
+              sequenceSoFar = [];
+            }
+            //below is a bit hacky for now, will have to reset sequence another way later on
+            if (sequenceSoFar.length > attackDict[attack].length) {
+              sequenceSoFar=[];
+              console.log("hackyly clearing the array");
+            }
+          }
         });
       });
 
       function isEqual(arr1, arr2) {
-       console.log(arr1, arr2);
+        console.log("comparing: ", arr1,  arr2);
         if (arr1.length != arr2.length) {
           return false;
         }
@@ -89,6 +99,6 @@
         my stuff
       </div>
 
-  </div>
+    </div>
   </body>
 </html>
