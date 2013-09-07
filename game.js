@@ -1,20 +1,30 @@
-var Firebase = require('firebase');
+var Player = require('./player.js');
 
-Game = function (id) {
-  this.pokepons = new Array();
+Game = function (gameRef, id) {
+  this.players = new Array();
+  this.gameRef = gameRef;
   this.id = id;
 }
 
 Game.prototype.start = function() {
+  this.players[0].enemy = this.players[1];
+  this.players[1].enemy = this.players[0];
 }
 
 Game.prototype.stop = function() {
+  this.players = new Array();
 }
 
-Game.prototype.createPlayer = function() {
-  // if we already have 2 players, throw an error
-  // create a player
-  // return the player
+Game.prototype.isFull = function() {
+  return pokepons.length >= 2;
+}
+
+Game.prototype.createPlayer = function(socketId) {
+  console.log(this.gameRef);
+  console.log(socketId);
+  var player = new Player(this, this.gameRef.child(socketId), this.players.length + 1);
+  this.players.push(player);
+  return player;
 }
 
 module.exports = Game;
