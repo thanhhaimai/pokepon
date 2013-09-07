@@ -3,9 +3,10 @@
   <head>
     <link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="/javascripts/client.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/client.js"></script>
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
     <style>
@@ -30,6 +31,8 @@
       }
 
       $(function () {
+        connectGame();
+
         $(document).keyup(function (e) {
           // console.log(e.timeStamp);
           console.log("entered: " + e.keyCode);

@@ -20,8 +20,8 @@ exports.list = function(req, res) {
 exports.create = function(req, res) {
   var id = Moniker.choose();
   games[id] = new Game(id);
-  res.redirect('/games/' + id);
   console.log("created game: " + id);
+  res.redirect('/games/' + id);
 }
 
 exports.view = function(req, res) {

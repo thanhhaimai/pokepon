@@ -5,12 +5,13 @@
 
 var express = require('express');
 var app = express();
+var server = require('http').createServer(app);
 
 var routes = require('./routes');
 var game = require('./routes/game');
 var http = require('http');
 var path = require('path');
-var io = require('socket.io').listen(app);
+var io = require('socket.io').listen(server);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -36,13 +37,16 @@ app.get('/games', game.list);
 app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
 
+var players = {};
+
 io.sockets.on('connection', function (socket) {
-  socket.emit('welcome', {msg: "welcome"});
-  socket.on('ack', function(data) {
-    console.log(data);
+  socket.emit('welcome', {msg: "welcome", id: socket.id});
+  socket.on('join', function(data) {
+    console.log('client ' + data + ' requested to join');
+    socket.emit('joined', {type: "player"});
   });
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
