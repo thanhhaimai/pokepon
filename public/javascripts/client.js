@@ -1,3 +1,5 @@
+var socket = io.connect('http://localhost');
+
 var dataRef = new Firebase('https://pokepon.firebaseio.com');
 var connectionRef = dataRef.child('.info/connected');
 
@@ -13,4 +15,8 @@ connectionRef.on('value', function(snapshot) {
   } else {
     // alert('disconnected');
   }
+});
+
+socket.on('welcome', function(data) {
+  alert('received welcome');
 });

@@ -38,8 +38,8 @@ app.get('/games/:id', game.view);
 
 io.sockets.on('connection', function (socket) {
   socket.emit('welcome', {msg: "welcome"});
-  socket.on('ack', function(data) {
-    console.log(data);
+  socket.on('join', function(data) {
+    console.log('client ' + data + ' requested to join');
   });
 });
 
