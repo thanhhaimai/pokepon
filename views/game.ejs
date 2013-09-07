@@ -7,6 +7,7 @@
     <script src="/javascripts/client.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
   </head>
   <body>
     <script>
@@ -17,6 +18,7 @@
       attackDict['block'] = [65,65,83,65];
       attackDict['paralyze'] = [83,65,87,68];
       var sequenceSoFar = [];
+      var count = 0;
       $(function () {
         $(document).keyup(function (e) {
           // console.log(e.timeStamp);
@@ -32,87 +34,112 @@
           }
           sequenceSoFar.push(e.keyCode);
           console.log("sequenceSoFar: " + sequenceSoFar);
-          for (var attack in attackDict) {
-
-            if (isEqual(sequenceSoFar, attackDict[attack])) {
+          if (e.keyCode == attackDict['block'][count]) {
+            console.log("don't reset, iterate count");
+            count = count + 1;
+            console.log(count, attackDict['block'].length);
+            if (count == attackDict['block'].length) {
               console.log("ATTACK!");
-              console.log(attack);
-              $("div#textbox").text("Pokemon used " + attack + "!");
+              //call to appropriate func
+              sequenceSoFar = [];
             }
-          //below is a bit hacky for now, will have to reset sequence another way later on
-          //the problem is you have to type another key that is registers to have more (if its equal, it clears w/o checking later combos)
-          if (sequenceSoFar.length > attackDict[attack].length) {
-            sequenceSoFar=[];
-            console.log("hackyly clearing the array");
+          } else {
+          sequenceSoFar=[];
+          console.log("reset sequence");
+          count = 0;
+        }
+         // for (var attack in attackDict) {
+
+           // if (isEqual(sequenceSoFar, attackDict[attack])) {
+             // console.log("ATTACK!");
+             // console.log(attack);
+             // $("div#textbox").text("Pokemon used " + attack + "!");
+             // sequenceSoFar=[];
+           // }
+
+            //below is a bit hacky for now, will have to reset sequence another way later on
+            //the problem is you have to type another key that is registers to have more (if its equal, it clears w/o checking later combos)
+         //   if (sequenceSoFar.length > attackDict[attack].length) {
+            //  sequenceSoFar=[];
+              //console.log("hackyly clearing the array");
+           // }
+         // }
+        });
+      });
+      function isEqual(arr1, arr2) { 
+        if (arr1.length == 0 && arr2.length == 0) {
+          return true;
+          } else if (arr1[0] != arr2[0]) {
+          return false; 
+          } else if (arr1[0] == arr2[0]) {
+          return true && isEqual(arr1.slice(1), arr2.slice(1)); 
+      } else { console.log("should not have reached this"); return false; }}
+      /*
+      function isEqual(arr1, arr2) {
+        console.log("comparing: ", arr1,  arr2);
+        if (arr1.length != arr2.length) {
+          return false;
+          //}
+        for (var i = 0; i < arr1.length; i = i +1) {
+          if (arr1[i] != arr2[i]) {
+            return false;
           }
         }
-      });
-    });
-
-    function isEqual(arr1, arr2) {
-      console.log("comparing: ", arr1,  arr2);
-      if (arr1.length != arr2.length) {
-        return false;
-      }
-      for (var i = 0; i < arr1.length; i = i +1) {
-        if (arr1[i] != arr2[i]) {
-          return false;
-        }
-      }
-      //console.log("the arrays are equal");
-      return true;
-    }
-    //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
-    function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
-      if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
+        //console.log("the arrays are equal");
         return true;
       }
-      return false;
-    }
+      */
+      //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
+      function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
+        if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
+          return true;
+        }
+        return false;
+      }
 
-  </script>
-  <div align = center>
-    <div class = "character" id = "youcharacter">
-      <div class = "vdivider" id = "vyoudivider">
-      </div>
-      <div id = "username">
-        <h1>
-          melaniec
-        </h1>
-      </div>
-      <div class = "hdivider"></div>
-      <div id = "textbox">
-        A wild pokemon has appeared!  
-      </div>
-      <div align = center>
-        <img class = "pokemon" id = "youpokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
-      </div>
-      <div align = right>
-        <div class = "healthbar" id = "youhealthbar">
-          <div class = "healthy" id = "youhealthy"></div>
+    </script>
+    <div align = center>
+      <div class = "character" id = "youcharacter">
+        <div class = "vdivider" id = "vyoudivider">
         </div>
-      </div>
-      <div class = "hdivider"></div>
-    </div>
-    <div class = "character" id = "opponentcharacter">
-      <div class = "vdivider" id = "vopponentdivider">
-      </div>
-      <div id = "username">
-        <h1>
-          sdjidjev
-        </h1>
-      </div>
-      <div class = "hdivider"></div>
-      <div align = center>
-        <img class = "pokemon" id = "opponentpokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
-      </div>
-      <div align = left>
-        <div class = "healthbar" id = "opponenthealthbar">
-          <div class = "healthy" id = "opponenthealthy"></div>
+        <div id = "username">
+          <h1>
+            melaniec
+          </h1>
         </div>
+        <div class = "hdivider"></div>
+        <div id = "textbox">
+          A wild pokemon has appeared!  
+        </div>
+        <div align = center>
+          <img class = "pokemon" id = "youpokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
+        </div>
+        <div align = right>
+          <div class = "healthbar" id = "youhealthbar">
+            <div class = "healthy" id = "youhealthy"></div>
+          </div>
+        </div>
+        <div class = "hdivider"></div>
       </div>
-      <div class = "hdivider"></div>
+      <div class = "character" id = "opponentcharacter">
+        <div class = "vdivider" id = "vopponentdivider">
+        </div>
+        <div id = "username">
+          <h1>
+            sdjidjev
+          </h1>
+        </div>
+        <div class = "hdivider"></div>
+        <div align = center>
+          <img class = "pokemon" id = "opponentpokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
+        </div>
+        <div align = left>
+          <div class = "healthbar" id = "opponenthealthbar">
+            <div class = "healthy" id = "opponenthealthy"></div>
+          </div>
+        </div>
+        <div class = "hdivider"></div>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
