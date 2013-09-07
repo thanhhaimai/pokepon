@@ -1,40 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+  	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
     <title>Pokepon!</title>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="/javascripts/client.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <script>
-      //w=87,a=65, s=83, d=68
-      var attackDict = [];
-      var acceptedKeyCodes = [87, 65, 83, 68];
-      attackDict['scratch'] = [87,87,87,87];
-      attackDict['block'] = [65,65,83,65];
-      var sequenceSoFar = [];
-      $(function () {
-        $(document).keyup(function (e) {
-          // console.log(e.timeStamp);
-          console.log("entered: " + e.keyCode);
-          if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
-            return;
-          }
-          var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-          //console.log(beatTimeStamp);
-          if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
-            console.log("NOT ACCURATE ENOUGH!");
-            sequenceSoFar=[];
-          }
-          sequenceSoFar.push(e.keyCode);
-          console.log("sequenceSoFar: " + sequenceSoFar);
-          for (var attack in attackDict) {
-
+  	<div align = center>
+	    <h1>Pokepon!</h1>
+	    <div class = "character">
+	    </div>
+	    <div class = "character">
+	    </div>
+        <script type="text/javascript">
             if (isEqual(sequenceSoFar, attackDict[attack])) {
               console.log("ATTACK!");
               sequenceSoFar = [];
@@ -113,5 +91,6 @@
       </div>
 
     </div>
+	</div>
   </body>
 </html>
