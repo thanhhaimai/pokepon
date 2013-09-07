@@ -1,8 +1,11 @@
-Game = function () {
-  this.players = [];
+var Firebase = require('firebase');
+
+Game = function (id) {
+  this.pokepons = new Array();
+  this.id = id;
 }
 
-Game.prototype.start = function(player1, player2) {
+Game.prototype.start = function() {
 }
 
 Game.prototype.stop = function() {

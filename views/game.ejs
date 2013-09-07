@@ -8,6 +8,9 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
+    <style>
+      html, body { height: 100%; width: 100%; margin: 0; }
+    </style>
   </head>
   <body>
     <script>
@@ -90,46 +93,45 @@
           }
           return false;
         }
-
-      </script>
-      <div align = center>
-        <div class = "character" id = "youcharacter">
-          <div class = "vdivider" id = "vyoudivider">
-          </div>
-          <div id = "username">
-            <h1>
-              melaniec
-            </h1>
-          </div>
-          <div class = "hdivider"></div>
-          <div id = "textbox">
-            A wild pokemon has appeared!  
-          </div>
-          <div align = center>
-            <img class = "pokemon" id = "youpokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
-          </div>
-          <div align = right>
-            <div class = "healthbar" id = "youhealthbar">
-              <div class = "healthy" id = "youhealthy"></div>
-            </div>
-          </div>
-          <div class = "hdivider"></div>
+    </script>
+    <div align = center>
+      <div class = "character" id = "youcharacter" height = "100%">
+        <div class = "vdivider" id = "vyoudivider">
         </div>
-        <div class = "character" id = "opponentcharacter">
-          <div class = "vdivider" id = "vopponentdivider">
-          </div>
-          <div id = "username">
-            <h1>
-              sdjidjev
-            </h1>
-          </div>
-          <div class = "hdivider"></div>
-          <div align = center>
-            <img class = "pokemon" id = "opponentpokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
-          </div>
-          <div align = left>
-            <div class = "healthbar" id = "opponenthealthbar">
-              <div class = "healthy" id = "opponenthealthy"></div>
+        <div id = "username">
+          <h1>
+            melaniec
+          </h1>
+        </div>
+        <div class = "hdivider"></div>
+        <div id = "textbox">
+          A wild pokemon appeared!
+        </div>
+        <div align = "center" style="width: 100%; height: 60%;">
+          <img class = "pokemon" id = "youpokemon" src = "http://upload.wikimedia.org/wikipedia/en/a/a9/Pok%C3%A9mon_Eevee_art.png"></img>
+        </div>
+        <div align = right>
+        <div class = "healthbar" id = "youhealthbar">
+          <div class = "healthy" id = "youhealthy"></div>
+        </div>
+      </div>
+        <div class = "hdivider"></div>
+      </div>
+      <div class = "character" id = "opponentcharacter">
+        <div class = "vdivider" id = "vopponentdivider">
+        </div>
+        <div id = "username">
+          <h1>
+            sdjidjev
+          </h1>
+        </div>
+        <div class = "hdivider"></div>
+        <div align = "center" style="width: 100%; height: 60%;">
+          <img class = "pokemon" id = "opponentpokemon" src = "http://upload.wikimedia.org/wikipedia/en/f/f7/Sugimoris025.png"></img>
+        </div>
+        <div align = left>
+        <div class = "healthbar" id = "opponenthealthbar">
+          <div class = "healthy" id = "opponenthealthy"></div>
             </div>
           </div>
           <div class = "hdivider"></div>

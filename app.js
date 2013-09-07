@@ -4,12 +4,13 @@
  */
 
 var express = require('express');
+var app = express();
+
 var routes = require('./routes');
 var game = require('./routes/game');
 var http = require('http');
 var path = require('path');
-
-var app = express();
+var io = require('socket.io').listen(app);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -31,8 +32,16 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', game.list);
-app.get('/game', game.list);
-app.get('/game/create', game.create);
+app.get('/games', game.list);
+app.get('/games/create', game.create);
+app.get('/games/:id', game.view);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('welcome', {msg: "welcome"});
+  socket.on('ack', function(data) {
+    console.log(data);
+  });
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

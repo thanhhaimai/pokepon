@@ -1,9 +1,14 @@
-Pokepon = function(game) {
+var Firebase = require('firebase');
+var dataRef = new Firebase('https://pokepon.firebaseio.com');
+var gameRef = dataRef.child('games');
+var configRef = dataRef.child('config');
+
+Pokepon = function(game, configVal) {
   this.name = "no name";
   this.sequence = [];
   this.game = game;
-  this.HP = 100;
-  this.maxHP = 100;
+  this.maxHP = configVal.maxHP;
+  this.HP = this.maxHP;
 }
 
 Pokepon.prototype.onKeyPress = function(key) {
