@@ -33,7 +33,30 @@ h1{
 	color: #252;
 	border-left: solid 1px #A9BA9D;
 	border-bottom: solid 1px #A9BA9D;
+}
+#moves{
+	text-align: left;
+	margin: 10px;
+}
 
+.keyboard{
+	background: #222;
+	width: 2em;
+	height: 2em;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px; 
+	color: white;
+	text-align: center;
+	line-height: 2em;
+	border-radius:2px;
+	margin-right: 3px;
+}
+h2{
+	text-align: center;
+	color: #252;
+	font-size: 27px;
+	margin: 0;
 }
 
 .pokemon{
@@ -45,6 +68,10 @@ h1{
 
 #youpokemon{   
 	float: center;
+	-moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }
 
 .healthbar{
@@ -106,8 +133,7 @@ h1{
 	height:6px;
 	width: 100%;
 	background-color: #A9BA9D;
-	float: left;
-	position: absolute;
+	position: relative;
 }
 
 #vyoudivider{
