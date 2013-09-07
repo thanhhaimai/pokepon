@@ -11,6 +11,10 @@ pids
 logs
 results
 
+# vagrant (only Achal is using this right now)
+.vagrant
+Vagrantfile
+
 # audio files
 audio/*
 !audio/README.md
