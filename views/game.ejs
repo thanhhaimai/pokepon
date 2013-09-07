@@ -36,6 +36,7 @@
       console.log("count reset to zero");
 
       function successfulPokemonAttack(pokemon, attack) {
+        client.attack();
         $("div#textbox").text(pokemon + " successfully used " + attack + "!");
         count = 0;
         console.log("NEW");

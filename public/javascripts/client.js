@@ -1,9 +1,5 @@
 var baseUrl = 'https://pokepon.firebaseio.com/';
 Client = function() {
-  this.pokeponRef;
-  this.enemyRef;
-  this.gameId;
-  this.socket;
 }
 
 Client.prototype.connect = function() {
@@ -13,21 +9,38 @@ Client.prototype.connect = function() {
 
   self.socket = io.connect('http://158.130.159.141:3000');
 
-  self.socket.on('joined', function(data) {
-    var url = baseUrl +  "games/" + self.gameId + '/' + data.id + '/pokepon';
-    self.pokeponRef = new Firebase(url);
-    self.pokeponRef.on('value', function(snapshot) {
-      var pokepon = snapshot.val();
-      $('#youhealthy').width(pokepon.HP + "%");
-    });
+  self.socket.on('joined', function(player) {
+    self.id = player.id;
+
+    if (player.type !== 'player') {
+      // which means there are more than 2 players in the game, and this player becomes a spectator.
+      // disable key input for this player
+      return;
+    }
   });
 
   self.socket.on('gameStart', function(data) {
-    var url = baseUrl +  "games/" + self.gameId + '/' + data.p2 + '/pokepon';
-    console.log(url);
-    self.enemyRef = new Firebase(url);
+    var url1 = baseUrl +  "games/" + self.gameId + '/' + data.player1 + '/pokepon';
+    var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
+    console.log(url1);
+    console.log(url2);
+
+    // TODO(melanie: set the right ref based on my self.id
+    self.pokeponRef = new Firebase(url1);
+    self.enemyRef = new Firebase(url2);
+
+    // this is the my pokepon data.
+    self.pokeponRef.on('value', function(snapshot) {
+      // this function will get called everytime my HP changed.
+      var pokepon = snapshot.val();
+      console.log(pokepon.HP);
+      // example of how to update the HP bar
+      $('#youhealthy').width(pokepon.HP + "%");
+    });
+
     self.enemyRef.on('value', function(snapshot) {
       enemy = snapshot.val();
+      console.log(enemy.HP);
       $('#opponenthealthy').width(enemy.HP + "%");
     });
   });

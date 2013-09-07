@@ -47,7 +47,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('join', function(data) {
     myGame = game.games[data.id];
     if (!myGame) {
-      console.err("game does not exist");
+      console.error("game does not exist");
       return;
     }
 
@@ -61,27 +61,17 @@ io.sockets.on('connection', function (socket) {
     if (myGame.players.length === 2) {
       myGame.start();
       socket.broadcast.emit('gameStart', {
-        "p1": myPlayer.id,
-        "p2": myPlayer.enemy.id,
-        "gameId": myGame.id
+        "player1": myGame.players[0].id,
+        "player2": myGame.players[1].id,
       });
     }
  });
-
-  socket.on('start', function() {
-    // TODO(thanhhaimai): need to check if both users are ready
-    myGame.start();
-  });
 
   socket.on('print', function() {
     console.log(myGame);
   });
 
-  socket.on('keyPressed', function(data) {
-  });
-
   socket.on('attack', function(data) {
-    console.log(myPlayer);
     myPlayer.attack();
   });
 });
