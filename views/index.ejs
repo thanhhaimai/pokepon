@@ -13,18 +13,30 @@
       var sequenceSoFar = [];
       $(function () {
         $(document).keyup(function (e) {
-          console.log(e.keyCode);
+          //console.log(e.timeStamp);
+          //console.log(e.keyCode);
+          var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
+          //console.log(beatTimeStamp);
+          if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
+            console.log("NOT ACCURATE ENOUGH!");
+            sequenceSoFar=[];
+          }
           sequenceSoFar.push(e.keyCode);
-          console.log(sequenceSoFar);
+         // console.log(sequenceSoFar);
           if (isEqual(sequenceSoFar, attack)) {
             console.log("ATTACK!");
             sequenceSoFar = [];
           }
+          //below is a bit hacky for now, will have to reset sequence another way later on
+          if (sequenceSoFar.length > attack.length) {
+            sequenceSoFar=[];
+          }
+
         });
       });
 
       function isEqual(arr1, arr2) {
-        console.log(arr1, arr2);
+       console.log(arr1, arr2);
         if (arr1.length != arr2.length) {
           return false;
         }
@@ -33,8 +45,15 @@
             return false;
           }
         }
-        console.log("the arrays are equal");
+        //console.log("the arrays are equal");
         return true;
+      }
+      //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
+      function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
+        if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
+          return true;
+        }
+        return false;
       }
 
     </script>
