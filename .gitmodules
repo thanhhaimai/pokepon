@@ -1,0 +1,3 @@
+[submodule "bpm/audio"]
+	path = bpm/audio
+	url = git://git.aubio.org/git/aubio/
