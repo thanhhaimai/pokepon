@@ -124,7 +124,7 @@ function setupKeyHandlers() {
     if (e.keyCode in keys) {
     return;
     }
-    if (!beatsUI.playing) { return; }
+    if (!beatsUI.playing) { console.log("Not playing!"); return; }
     var hitScore = beatsUI.hit();
     if (hitScore == 0) {
       sequenceSoFar=[];
@@ -228,23 +228,26 @@ var beatsUI = {
 
     var animation = function() {
       var elapsedTime = new Date().getTime() - self._startTime;
+      var w = 10;
       for (var time in self._beatObjects) {
         if (self._beatObjects.hasOwnProperty(time)) {
           if (time < elapsedTime) {
             if(self._beatObjects[time]) self._beatObjects[time].remove();
             delete self._beatObjects[time];
           } else if ((time - elapsedTime) < self._msWidth) {
-            var x = self._x + ((time - elapsedTime) / self._msWidth) * self._w,
+            var x = self._x + ((time - elapsedTime) / self._msWidth) * self._w - w,
                 y = self._y,
-                w = 20,
+                w = 10,
                 h = self._h;
             if (self._beatObjects[time] == null) {
               self._beatObjects[time] = self._paper.rect(x, y, w, h)
-                                                   .attr({'fill': '#ddd'});
+                                                   .attr({'fill': '#aaa'});
+              self._beatObjects[time].data('x-offset',0);
+              self._beatObjects[time].data('y-offset',0);
             } else {
               self._beatObjects[time].animate({
-                x : x,
-                y : y
+                x : x + self._beatObjects[time].data('x-offset'),
+                y : y + self._beatObjects[time].data('y-offset')
               });
             }
           }
@@ -259,24 +262,32 @@ var beatsUI = {
 
   // returns value between 0-1 indicating how accurate this was
   hit : function() {
-    return 1;
-    var elapsedTime = new Date().getTime() - self._startTime,
+    var elapsedTime = new Date().getTime() - this._startTime,
         minDiff = -1,
         minDiffIndex = -1;
-    for (var i = 0; i < this._beatTimes; ++i) {
-      if (minDiff == -1 || minDiff > Math.abs(elapsedTime - this._beatTimes[i])) {
-        minDiff = Math.abs(elapsedTime - this._beatTimes[i]);
+    for (var i = 0; i < this._beatTimes.length; ++i) {
+      if (minDiff == -1 || minDiff > Math.abs(elapsedTime - this._beatTimes[i]*1000)) {
+        minDiff = Math.abs(elapsedTime - this._beatTimes[i]*1000);
         minDiffIndex = i;
       }
     }
-    if (minDiff < 500) {
-      var rBeat = this._beatObjecs[this._beatTimes[minDiffIndex]];
-      rBeats.animate({
-        w : rBeats.attr('width') + 20,
-        h : rBeats.attr('height') + 20
-      })
+    console.log(minDiff);
+    if (minDiff < 200) {
+      console.log("Beat: ", this._beatTimes[minDiffIndex]*1000);
+      console.dir(this._beatObjects);
+      var rBeat = this._beatObjects[this._beatTimes[minDiffIndex]*1000];
+      var expandw = rBeat.attr('width'),
+          expandh = 20;
+      rBeat.data('x-offset', -expandw/2);
+      rBeat.data('y-offset', -expandh/2);
+      rBeat.animate({
+        width : rBeat.attr('width') + expandw,
+        height : rBeat.attr('height') + expandh,
+        fill : 'red'
+      },100)
       this._beatTimes.slice(minDiffIndex,1);
-      return (1 - minDiff / 500)
+      delete this._beatObjects[this._beatTimes[minDiffIndex]];
+      return (1 - minDiff / 200)
     } else {
       return 0;
     }
@@ -349,7 +360,7 @@ $(function () {
 
     setupHealthBars();
     setupKeyHandlers();
-    selectMusic();
+    // selectMusic();
     // beatsUI.setup(beatTimes);
     // beatsUI.play();
 });
