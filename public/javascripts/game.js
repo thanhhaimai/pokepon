@@ -333,9 +333,12 @@ var beatsUI = {
 
 function selectMusic() {
   var clientId = 'df1eacadddaf233fdf1c1192a27b7ce5';
+  var host = io.connect("http://" + window.location.href.split('/')[2] + "/soundcloud-auth");
+  console.log(host);
   // initialize client with app credentials
   SC.initialize({
     client_id: clientId,
+    // redirect_uri: host
     redirect_uri: 'http://localhost:3000/soundcloud-auth'
   });
 

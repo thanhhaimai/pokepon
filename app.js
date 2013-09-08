@@ -81,6 +81,7 @@ io.sockets.on('connection', function (socket) {
         "pokepon1": myGame.players[0].pokepon.urlNumber,
         "pokepon2": myGame.players[1].pokepon.urlNumber,
         "beats" : beatsArray,
+        "song" : myGame.song,
         "gameId": myGame.id
       });
     }

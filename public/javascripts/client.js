@@ -6,10 +6,15 @@ Client = function() {
 
 Client.prototype.loadMusic = function(trackId) {
   var self = this;
-  // SC.stream('/tracks/108831064', function(s) {
-  SC.stream('/tracks/' + trackId, function(s) {
-    self.sound = s;
-  });
+  var songUrl = baseUrl + "games/" + self.gameId + "/song";
+  var songRef = new Firebase(songUrl);
+  // songRef.on('value', function(dataSnapshot) {
+  //   // SC.stream('/tracks/108831064', function(s) {
+  //   SC.stream('/tracks/' + trackId, function(s) {
+  //     self.sound = s;
+  //   });
+  // }
+  songRef.set(trackId);
 }
 
 Client.prototype.connect = function() {
@@ -47,16 +52,21 @@ Client.prototype.connect = function() {
     beatsUI.setup(data.beats);
     beatsUI.play();
 
-    // play the song if we can get the sound driver
-    if (self.sound) {
+    SC.stream('/tracks/' + data.song, function(s) {
+      self.sound = s;
       self.sound.play();
-    } else {
-      SC.stream('/tracks/90304600', function(s) {
-        self.sound = s;
-        self.sound.play();
-      });
-    }
+    });
 
+//     // play the song if we can get the sound driver
+//     if (self.sound) {
+//       self.sound.play();
+//     } else {
+//       SC.stream('/tracks/90304600', function(s) {
+//         self.sound = s;
+//         self.sound.play();
+//       });
+//     }
+   
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
       console.log("I'm on the left", data.pokepon2);
