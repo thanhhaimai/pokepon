@@ -48,13 +48,13 @@ Client.prototype.connect = function() {
       var pokepon = snapshot.val();
       console.log(pokepon.HP);
       // example of how to update the HP bar
-      setHealth($('#youhealthbar'), pokepon.HP / 100.0);
+      setHealth($('#you .health-bar'), pokepon.HP / 100.0);
     });
 
     self.enemyRef.on('value', function(snapshot) {
       enemy = snapshot.val();
       console.log(enemy.HP);
-      setHealth($('#opponenthealthbar'), enemy.HP / 100.0);
+      setHealth($('#opponent .health-bar'), enemy.HP / 100.0);
     });
   });
 

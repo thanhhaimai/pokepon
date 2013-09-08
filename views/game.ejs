@@ -12,62 +12,55 @@
     <script src="http://connect.soundcloud.com/sdk.js"></script>
 
     <script src="/javascripts/game.js"></script>
-    <style>
-      html, body { height: 100%; width: 100%; margin: 0; }
-    </style>
   </head>
-  <body background = "/img/pokemon_background.png">
+  <body background="/img/pokemon_background.png">
+      <div id="player-containers-container">
+        <div class="player-container" id="you">
+          <h1 class="name">
+            melaniec
+          </h1>
 
-      <div align = center>
-        <div class = "character" id = "youcharacter" height = "100%">
-          <div id = "youname">
-            <h1>
-              melaniec
-            </h1>
+          <div class="pokemon-container">
+            <img class="pokemon" src="http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"></img>
           </div>
-          <div align = "center" style="width: 100%; height: 50%;">
-            <img class = "pokemon" id = "youpokemon" src = "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"></img>
+
+          <div class="health-bar-and-number">
+            <div class="health-number">20/100</div>
+            <div class="health-bar"></div>
           </div>
-          <div align = right>
-            <div class = "youhealthbarandnumber">
-            <div id="healthNumber"> 20/100</div>
-            <div class = "healthbar" id = "youhealthbar">
-            </div>
-          </div>
-          </div>
-          <div class = "hdivider" id = "movedivider"></div>
-          <div id = "moves">
-            <div id = "textbox">
+
+          <!-- TODO: cleanup moves -->
+          <div id="moves" class="moves-or-beats">
+            <div id="textbox">
             A wild pokemon appeared!
-        </div>
+            </div>
             <h2><u>moves</u></h2>
-            scratch: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
+            scratch: <div class="keyboard" id="firstbasic">W</div><div class="keyboard" id="secondbasic">W</div><div class="keyboard" id="thirdbasic">W</div><div class="keyboard" id="fourthbasic">W</div>
             <br>
             <br>
-            block: <div class = "keyboard" id = "firstblock">A</div><div class = "keyboard" id = "secondblock">A</div><div class = "keyboard" id = "thirdblock">S</div><div class = "keyboard" id = "fourthblock">A</div>
+            block: <div class="keyboard" id="firstblock">A</div><div class="keyboard" id="secondblock">A</div><div class="keyboard" id="thirdblock">S</div><div class="keyboard" id="fourthblock">A</div>
             <br>
             <br>
-            paralyze: <div class = "keyboard" id = "firstpara">S</div><div class = "keyboard" id = "secondpara">A</div><div class = "keyboard" id = "thirdpara">W</div><div class = "keyboard" id = "fourthpara">D</div>
+            paralyze: <div class="keyboard" id="firstpara">S</div><div class="keyboard" id="secondpara">A</div><div class="keyboard" id="thirdpara">W</div><div class="keyboard" id="fourthpara">D</div>
             <br>
             <br>
           </div>
-        </div>
-        <div class = "character" id = "opponentcharacter">
-          <div id = "opponentname">
-            <h1>
-              sdjidjev
-            </h1>
-            <div class = "vdivider" id = "vopponentdivider"></div>
+
+        </div><!-- html new lines = spaces so avoid space with comment
+     --><div class="player-container" id="opponent">
+          <h1 class="name">
+            sdjidjev
+          </h1>
+          <div class="pokemon-container">
+            <img class="pokemon" src="http://static.tumblr.com/yeaa5gt/i0imngwcd/359.gif"></img>
           </div>
-          <div align = "center" style="width: 100%; height: 50%;">
-            <img class = "pokemon" id = "opponentpokemon" src = "http://static.tumblr.com/yeaa5gt/i0imngwcd/359.gif"></img>
+          
+          <div class="health-bar-and-number">
+            <div class="health-number">20/100</div>
+            <div class="health-bar"></div>
           </div>
-          <div align = left>
-            <div class = "healthbar" id = "opponenthealthbar">
-          </div>
-          </div>
-          <div class = "hdivider" id = "beatdivider"></div>
-          <div id = "beats"></div>
+
+          <div id="beats" class="moves-or-beats"></div>
         </div>
       </div>
     </body>

@@ -16,17 +16,14 @@ function toCodeArray(str) { return str.split("").map(getKeyCode); }
 attackDict['scratch']   = toCodeArray("WWWW");
 attackDict['block']     = toCodeArray("AASA");
 attackDict['paralyze']  = toCodeArray("SAWD");
-console.log(attackDict);
 var sequenceSoFar = [];
 var count = 0;
 var client = new Client();
-console.log("count reset to zero");
 
 function successfulPokemonAttack(pokemon, attack) {
   client.attack();
   $("div#textbox").text(pokemon + " successfully used " + attack + "!");
   count = 0;
-  console.log("NEW");
   sequenceSoFar =[];
   setTimeout(function(){
     //jQuery lets you treat all elements of a class as one object
@@ -45,12 +42,13 @@ function isSubArray(typedArray, givenMove) {
 }
 
 function setupHealthBars() {
-  var $youHealthBarContainer = $('#youhealthbar'),
-  $opponentHealthBarContainer = $('#opponenthealthbar'),
+  var $youHealthBarContainer = $('#you .health-bar'),
+  $opponentHealthBarContainer = $('#opponent .health-bar'),
   width  = $youHealthBarContainer.width(),
   height = $youHealthBarContainer.height(),
   youHealthPaper = Raphael($youHealthBarContainer[0], width, height),
   opponentHealthPaper = Raphael($opponentHealthBarContainer[0], width, height);
+  console.log(width, height);
 
   var x = 0.1*width, y = 0.1*height, w = 0.8*width, h = 0.8*height;
   // health bar backgrounds
@@ -120,14 +118,11 @@ function setupKeyHandlers() {
     }
     var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
     if (!isAccuratePress(beatTimeStamp, new Date().getTime(), 500)) {
-    console.log("NOT ACCURATE ENOUGH!");
     sequenceSoFar=[];
     count = 0;
     }
     sequenceSoFar.push(e.keyCode);
-    console.log("SEQSOFAR", sequenceSoFar);
     if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
-    console.log(isSubArray(sequenceSoFar, attackDict['block']));
     document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
     count = count + 1;
     if (count == attackDict['block'].length) {
@@ -135,7 +130,6 @@ function setupKeyHandlers() {
     var youpokemonelcopy = youpokemonel.src.toString()
     youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
     var transitionendhandler = function(event) {
-      console.log("normal")
         youpokemonel.src = "http://sprites.pokecheck.org/i/009.gif"
         youpokemonel.style.WebkitTransform = "scaleX(-1)";
     }
@@ -144,11 +138,9 @@ function setupKeyHandlers() {
     }
     }
     else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
-      console.log(isSubArray(sequenceSoFar, attackDict['scratch'])); 
       document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
       count = count + 1;
       if (count == attackDict['scratch'].length) {
-        console.log("SCRATCH");
         var youpokemonel = $('#youpokemon')[0];
         youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
         youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
@@ -167,7 +159,6 @@ function setupKeyHandlers() {
       }
     } 
     else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
-      console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
       document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
       count = count + 1;
       if (count == attackDict['paralyze'].length) {
@@ -210,7 +201,21 @@ function setupKeyHandlers() {
 }
 
 function setupBeats() {
+  /*
+  var $beats = $("#beats"),
+      w = $beats.width(),
+      h = $beats.height();
+      console.log($beats.height());
+      /*
+      beatsPaper = Raphael($beats[0], w, h);
 
+  var barWidth = 0.5*w,
+      barHeight = 100;
+
+  console.log(w, h, barWidth, barHeight);
+  console.log(h/2);
+  beatsPaper.rect((w - barWidth)/2, h/2+0.5, barWidth, barHeight).attr({'fill':'#000'});
+  */
 }
 
 $(function () {
