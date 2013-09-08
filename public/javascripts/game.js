@@ -154,6 +154,8 @@ function setupKeyHandlers() {
         youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
         youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
         youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
+        var enemypokemonel = $('enemypokepon')[0];
+        enemypokemonel.style = {visibility:hidden}; 
         var transitionendhandler = function(event) {
           youpokemonel.style.transform = "scaleX(-1)";
           youpokemonel.style.OTransform = "scaleX(-1)";
