@@ -259,6 +259,7 @@ var beatsUI = {
 
   // returns value between 0-1 indicating how accurate this was
   hit : function() {
+    return 1;
     var elapsedTime = new Date().getTime() - self._startTime,
         minDiff = -1,
         minDiffIndex = -1;
