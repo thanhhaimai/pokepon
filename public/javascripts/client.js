@@ -41,21 +41,26 @@ Client.prototype.connect = function() {
     var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
     self.pic1 = data.pokepon1;
     self.pic2 = data.pokepon2;
-    console.log(data.beats);
     beatsUI.setup(data.beats);
     beatsUI.play();
-    self.sound.play();
+
+    // play the song if we can get the sound driver
+    if (self.sound) {
+      self.sound.play();
+    }
 
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
+      console.log("I'm on the left", data.pokepon2);
       self.pokeponRef = new Firebase(url1);
       self.enemyRef = new Firebase(url2);
-      $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
+      // $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
       $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
     } else {
+      console.log("I'm on the right", data.pokepon1);
       self.pokeponRef = new Firebase(url2);
       self.enemyRef = new Firebase(url1);
-      $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
+      // $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
       $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
     }
 
