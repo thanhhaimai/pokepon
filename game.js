@@ -8,7 +8,7 @@ Game = function (gameRef, id) {
 }
 
 Game.prototype.start = function() {
-  if (!this.isStarted) {
+  if (!this.isStarted && this.players.length >= 2) {
     console.log("started");
     this.isStarted = true;
     this.players[0].enemy = this.players[1];
@@ -17,7 +17,9 @@ Game.prototype.start = function() {
 }
 
 Game.prototype.stop = function() {
-  this.players = new Array();
+  // this.players = new Array();
+  this.sockets.emit('gameover');
+  this.gameRef.remove();
 }
 
 Game.prototype.isFull = function() {
@@ -28,7 +30,13 @@ Game.prototype.createPlayer = function(socketId) {
   console.log(this.gameRef);
   console.log(socketId);
   var player = new Player(this.gameRef.child(socketId), this.players.length);
+  player.game = this;
   this.players.push(player);
+  if (this.players.length <= 2) {
+    player.type = "player";
+  } else {
+    player.type = "spectator";
+  }
   return player;
 }
 

@@ -15,4 +15,11 @@ Player.prototype.attack = function() {
   this.enemy.pokepon.damage(10);
 }
 
+Player.prototype.leaveGame = function() {
+  // this.game.players.remove(this);
+  if (this.type === "player") {
+    this.game.stop();
+  }
+}
+
 module.exports = Player;

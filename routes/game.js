@@ -8,7 +8,9 @@ var Pokepon = require('../pokepon.js');
 var Player = require('../player.js');
 
 var games = {};
+var players ={};
 exports.games = games;
+exports.players = players;
 
 exports.list = function(req, res) {
   res.render('index', {"games": games});

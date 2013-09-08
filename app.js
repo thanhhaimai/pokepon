@@ -44,6 +44,14 @@ io.sockets.on('connection', function (socket) {
   var myGame;
   var myPlayer;
 
+  socket.on('disconnect', function () {
+    if (!myGame || !myPlayer) {
+      return;
+    }
+
+    myPlayer.leaveGame();
+  });
+
   socket.on('join', function(data) {
     myGame = game.games[data.id];
     if (!myGame) {
@@ -51,10 +59,12 @@ io.sockets.on('connection', function (socket) {
       return;
     }
 
+    myGame.sockets = io.sockets;
     myPlayer = myGame.createPlayer(socket.id);
     myPlayer.id = socket.id;
+    game.players[socket.id] = myPlayer;
     socket.emit('joined', {
-      type: "player",
+      type: myPlayer.type,
       id: socket.id
     });
 
@@ -76,6 +86,8 @@ io.sockets.on('connection', function (socket) {
     myPlayer.attack();
   });
 });
+
+
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
