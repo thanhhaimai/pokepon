@@ -82,6 +82,7 @@ Client.prototype.connect = function() {
       console.log(pokepon.HP);
       // example of how to update the HP bar
       setHealth($('#you .health-bar'), pokepon.HP / 100.0);
+      $('.health-number').html(pokepon.HP + "/100");
     });
 
     self.enemyRef.on('value', function(snapshot) {

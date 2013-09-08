@@ -123,6 +123,7 @@ function setHealth($healthBarContainer, health) {
       });
     });
   });
+
 }
 
 function setupKeyHandlers() {
