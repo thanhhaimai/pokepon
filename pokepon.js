@@ -5,8 +5,13 @@ Pokepon = function(index, pokeponRef) {
     name: "no name",
     maxHP: 100,
     HP: 100,
-    imageUrl: "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"
+    urlNumber: this.getRandomNum()
   });
+}
+
+Pokepon.prototype.getRandomNum = function() {
+  console.log(Math.floor(Math.random * 649) + 1);
+  return (Math.floor(Math.random * 649) + 1);
 }
 
 Pokepon.prototype.damage = function(dmg) {
