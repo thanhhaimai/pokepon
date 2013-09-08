@@ -5,9 +5,9 @@ keyboardKeys['paralyze'] = ['firstpara', 'secondpara', 'thirdpara', 'fourthpara'
 
 window.requestAnimFrame = (function(){
   return  window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    function( callback ){
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame    ||
+  function( callback ){
     window.setTimeout(callback, 1000 / 60);
   };
 })();
@@ -30,7 +30,13 @@ var count = 0;
 var client = new Client();
 
 function successfulPokemonAttack(pokemon, attack) {
-  client.attack();
+  if (attack === "BLOCK") {
+
+  } else if (attack === "SCRATCH") {
+    client.attack();
+  } else if (attack === "PARALYZE") {
+  }
+
   $("#textbox").text(pokemon + " successfully used " + attack + "!");
   count = 0;
   sequenceSoFar =[];
@@ -52,11 +58,11 @@ function isSubArray(typedArray, givenMove) {
 
 function setupHealthBars() {
   var $youHealthBarContainer = $('#you .health-bar'),
-  $opponentHealthBarContainer = $('#opponent .health-bar'),
-  width  = $youHealthBarContainer.width(),
-  height = $youHealthBarContainer.height(),
-  youHealthPaper = Raphael($youHealthBarContainer[0], width, height),
-  opponentHealthPaper = Raphael($opponentHealthBarContainer[0], width, height);
+      $opponentHealthBarContainer = $('#opponent .health-bar'),
+      width  = $youHealthBarContainer.width(),
+      height = $youHealthBarContainer.height(),
+      youHealthPaper = Raphael($youHealthBarContainer[0], width, height),
+      opponentHealthPaper = Raphael($opponentHealthBarContainer[0], width, height);
 
   var x = 0.1*width, y = 0.1*height, w = 0.8*width, h = 0.8*height;
   // health bar backgrounds
@@ -65,12 +71,12 @@ function setupHealthBars() {
 
   // actual health bars
   var youHealthBar = youHealthPaper
-  .rect(x,y,w,h)
-  .attr({ fill : '#50dd50'}),
+    .rect(x,y,w,h)
+    .attr({ fill : '#50dd50'}),
 
-  opponentHealthBar = opponentHealthPaper
-  .rect(x,y,w,h)
-  .attr({ fill : '#50dd50'});
+    opponentHealthBar = opponentHealthPaper
+      .rect(x,y,w,h)
+      .attr({ fill : '#50dd50'});
 
   youHealthBar.data('origHeight', .8*height);
   youHealthBar.data('origWidth', .8*width);
@@ -110,10 +116,10 @@ function setHealth($healthBarContainer, health) {
       var hurtRect = rHealthBarPaper
       .rect(oldParams.x, oldParams.y, oldParams.width, oldParams.height)
       .attr({ fill : '#dd5050' }).insertBefore(rHealthBar);
-      rHealthBar.animate(newParams, 300, function() {
-        hurtRect.animate({ opacity : 0 }, 300, function() {
-          hurtRect.remove();
-        });
+    });
+    rHealthBar.animate(newParams, 300, function() {
+      hurtRect.animate({ opacity : 0 }, 300, function() {
+        hurtRect.remove();
       });
     });
   });
@@ -122,7 +128,7 @@ function setHealth($healthBarContainer, health) {
 function setupKeyHandlers() {
   $(document).keyup(function (e) {
     if (e.keyCode in keys) {
-    return;
+      return;
     }
     if (!beatsUI.playing) { console.log("Not playing!"); return; }
     var hitScore = beatsUI.hit();
@@ -132,18 +138,31 @@ function setupKeyHandlers() {
     }
     sequenceSoFar.push(e.keyCode);
     if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
-    document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
-    count = count + 1;
-    if (count == attackDict['block'].length) {
-    var youpokemonel = $('#you .pokemon')[0];
-    var youpokemonelcopy = youpokemonel.src.toString()
-    //should be a shielf or something for block
-    //
-    var transitionendhandler = function(event) {
-    }
-    youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-    successfulPokemonAttack("Pokepon", 'BLOCK');
-    }
+      document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
+      count = count + 1;
+      if (count == attackDict['block'].length) {
+        // var youpokemonel = $('#you .pokemon')[0];
+        // var youpokemonelcopy = youpokemonel.src.toString();
+        //should be a shielf or something for block
+        var youpokemonel = $('#you .pokemon')[0];
+        youpokemonel.style.transform = "scale(-0.5, 0.5)";
+        youpokemonel.style.OTransform = "scale(-0.5, 0.5)";
+        youpokemonel.style.MozTransform = "scale(-0.5, 0.5)";
+        youpokemonel.style.WebkitTransform = "scale(-0.5, 0.5)";
+        var enemypokemonel = $('enemypokepon')[0];
+        var transitionendhandler = function(event) {
+          youpokemonel.style.transform = "scaleX(-1)";
+          youpokemonel.style.OTransform = "scaleX(-1)";
+          youpokemonel.style.MozTransform = "scaleX(-1)";
+          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+        }
+        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+        //
+        var transitionendhandler = function(event) {
+        }
+        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+        successfulPokemonAttack("Pokepon", 'BLOCK');
+      }
     }
     else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
       document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
@@ -209,9 +228,9 @@ var beatsUI = {
     var self = this;
     this._beatTimes.map(function(k) { self._beatObjects[k * 1000] = null; })
 
-    var $beats = $("#beats"),
-    w = $beats.width(),
-    h = $beats.height();
+      var $beats = $("#beats"),
+          w = $beats.width(),
+          h = $beats.height();
     this._paper = Raphael($beats[0], w, h);
 
     this._w = 0.8*w;
@@ -219,7 +238,7 @@ var beatsUI = {
     this._y = (h - this._h)/2;
 
     this._paper.rect(this._x, this._y, this._w, this._h)
-               .attr({'fill' : '#000' });
+      .attr({'fill' : '#000' });
   },
 
   play : function() {
@@ -320,34 +339,34 @@ function selectMusic() {
       for (var i = 0; i < playlists.length; ++i) {
         if (playlists[i].title == "pokepom") {
           var playlist = playlists[i],
-              tracks = playlist.tracks;
-          var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
-          var width = 800;
-          var height = 400;
-          $('body').append($soundcloudSelector);
-          $soundcloudSelector.css({
-            width : width,
-            height : height,
-            top : ($('body').height() - height) / 2,
-            left : ($('body').width() - width) / 2,
-          });
-          for (var j = 0; j < tracks.length; ++j) {
-            var track = tracks[j];
-            var track = tracks[j];
-            var url = track.artwork_url;
-            if (!url) {
-              url = track.waveform_url;
-            }
-            var $track = $('<div class="track">'+
-                            '<img src="'+url+'"></img>'+
-                            '<div>'+track.title+'</div>');
-            $track.click(function() {
-              $soundcloudSelector.fadeOut();
-              var trackId = (/(\d+)/.exec(track.stream_url))[1];
-            });
-            $soundcloudSelector.append($track);
-          }
-          break;
+      tracks = playlist.tracks;
+    var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
+    var width = 800;
+    var height = 400;
+    $('body').append($soundcloudSelector);
+    $soundcloudSelector.css({
+      width : width,
+      height : height,
+      top : ($('body').height() - height) / 2,
+      left : ($('body').width() - width) / 2,
+    });
+    for (var j = 0; j < tracks.length; ++j) {
+      var track = tracks[j];
+      var track = tracks[j];
+      var url = track.artwork_url;
+      if (!url) {
+        url = track.waveform_url;
+      }
+      var $track = $('<div class="track">'+
+          '<img src="'+url+'"></img>'+
+          '<div>'+track.title+'</div>');
+      $track.click(function() {
+        $soundcloudSelector.fadeOut();
+        var trackId = (/(\d+)/.exec(track.stream_url))[1];
+      });
+      $soundcloudSelector.append($track);
+    }
+    break;
         }
       }
       console.dir(playlists);
@@ -356,11 +375,11 @@ function selectMusic() {
 }
 
 $(function () {
-    client.connect();
+  client.connect();
 
-    setupHealthBars();
-    setupKeyHandlers();
-    // selectMusic();
-    // beatsUI.setup(beatTimes);
-    // beatsUI.play();
+  setupHealthBars();
+  setupKeyHandlers();
+  selectMusic();
+  // beatsUI.setup(beatTimes);
+  // beatsUI.play();
 });
