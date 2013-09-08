@@ -39,6 +39,7 @@ app.get('/games/create', game.create);
 app.get('/games/:id', game.view);
 
 app.get('/soundcloud', soundcloud.index);
+app.get('/soundcloud-auth', soundcloud.auth);
 
 var fs = require('fs');
 var beatsArray = fs.readFileSync('./beats/90304600.txt').toString().split("\n");

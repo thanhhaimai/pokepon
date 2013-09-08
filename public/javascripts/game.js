@@ -282,11 +282,61 @@ var beatsUI = {
   _msWidth : 5000
 }
 
+function selectMusic() {
+  var clientId = 'df1eacadddaf233fdf1c1192a27b7ce5';
+  // initialize client with app credentials
+  SC.initialize({
+    client_id: clientId,
+    redirect_uri: 'http://localhost:3000/soundcloud-auth'
+  });
+
+  SC.connect(function() {
+    SC.get("/me/playlists", function(playlists) {
+      for (var i = 0; i < playlists.length; ++i) {
+        if (playlists[i].title == "pokepom") {
+          console.log("Creating div");
+          var playlist = playlists[i],
+              tracks = playlist.tracks;
+          var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
+          var width = 800;
+          var height = 400;
+          $('body').append($soundcloudSelector);
+          $soundcloudSelector.css({
+            width : width,
+            height : height,
+            top : ($('body').height() - height) / 2,
+            left : ($('body').width() - width) / 2,
+          });
+          for (var j = 0; j < tracks.length; ++j) {
+            var track = tracks[j];
+            console.log("Track:", track.title);
+            var track = tracks[j];
+            var url = track.artwork_url;
+            if (!url) {
+              url = track.waveform_url;
+            }
+            var $track = $('<div class="track">'+
+                            '<img src="'+url+'"></img>'+
+                            '<div>'+track.title+'</div>');
+            $track.click(function() {
+              alert("Load " + track.stream_url);
+            })
+            $soundcloudSelector.append($track);
+          }
+          break;
+        }
+      }
+      console.dir(playlists);
+    });
+  });
+}
+
 $(function () {
     client.connect();
 
     setupHealthBars();
     setupKeyHandlers();
+    selectMusic();
     // beatsUI.setup(beatTimes);
     // beatsUI.play();
 });
