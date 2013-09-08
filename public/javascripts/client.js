@@ -47,6 +47,11 @@ Client.prototype.connect = function() {
     // play the song if we can get the sound driver
     if (self.sound) {
       self.sound.play();
+    } else {
+      SC.stream('/tracks/90304600', function(s) {
+        self.sound = s;
+        self.sound.play();
+      });
     }
 
     // TODO(melanie: set the right ref based on my self.id
