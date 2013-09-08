@@ -356,20 +356,24 @@ function selectMusic() {
             left : ($('body').width() - width) / 2,
           });
           for (var j = 0; j < tracks.length; ++j) {
-            var track = tracks[j];
-            var url = track.artwork_url;
-            if (!url) {
-              url = track.waveform_url;
-            }
-            var $track = $('<div class="track">'+
-                           '<img src="'+url+'"></img>'+
-                           '<div>'+track.title+'</div>');
-            $track.click(function() {
-              $soundcloudSelector.fadeOut();
-              var trackId = (/(\d+)/.exec(track.stream_url))[1];
-             client.loadMusic(trackId);
-            });
-            $soundcloudSelector.append($track);
+           (function(index) {
+              var track = tracks[index];
+              var url = track.artwork_url;
+              if (!url) {
+                url = track.waveform_url;
+              }
+              var $track = $('<div class="track">'+
+                '<img src="'+url+'"></img>'+
+                '<div>'+track.title+'</div>');
+              $track.click(function() {
+                $soundcloudSelector.fadeOut();
+                var trackId = (/(\d+)/.exec(track.stream_url))[1];
+                console.log("=============================");
+                console.log(trackId);
+                client.loadMusic(trackId);
+              });
+              $soundcloudSelector.append($track);
+            })(j);
           }
           break;
         }
