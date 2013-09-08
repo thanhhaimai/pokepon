@@ -336,7 +336,7 @@ function selectMusic() {
   // initialize client with app credentials
   SC.initialize({
     client_id: clientId,
-    redirect_uri: 'http://localhost:3000/soundcloud-auth'
+    redirect_uri: 'http://ec2-107-22-149-156.compute-1.amazonaws.com:3000/soundcloud-auth'
   });
 
   SC.connect(function() {
