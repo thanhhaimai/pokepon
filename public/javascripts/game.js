@@ -125,10 +125,11 @@ function setupKeyHandlers() {
     if (e.keyCode in keys) {
     return;
     }
-    var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-    if (!isAccuratePress(beatTimeStamp, new Date().getTime(), 500)) {
-    sequenceSoFar=[];
-    count = 0;
+    if (!beatsUI.playing) { return; }
+    var hitScore = beatsUI.hit();
+    if (hitScore == 0) {
+      sequenceSoFar=[];
+      count = 0;
     }
     sequenceSoFar.push(e.keyCode);
     if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
@@ -186,13 +187,6 @@ function setupKeyHandlers() {
       $('.keyboard').css('background', '#222');
       //user can't type for half a second
     }
-    //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
-    function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
-      if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
-        return true;
-      }
-      return false;
-    }
 
     function isEqual(arr1, arr2) {
       if (arr1.length != arr2.length) {
@@ -208,11 +202,6 @@ function setupKeyHandlers() {
   });
 
 }
-
-// DEBUG
-var beatTimes = [], beatCounter = 0;
-while(beatCounter < 30) { beatTimes.push(beatCounter*1000); ++beatCounter; }
-console.log(beatTimes);
 
 var beatsUI = {
   setup : function(beatTimes) {
@@ -231,7 +220,8 @@ var beatsUI = {
     this._x = (w - this._w)/2;
     this._y = (h - this._h)/2;
 
-    this._paper.rect(this._x, this._y, this._w, this._h);
+    this._paper.rect(this._x, this._y, this._w, this._h)
+               .attr({'fill' : '#000' });
   },
 
   play : function() {
@@ -252,7 +242,7 @@ var beatsUI = {
                 h = self._h;
             if (self._beatObjects[time] == null) {
               self._beatObjects[time] = self._paper.rect(x, y, w, h)
-                                                   .attr({'fill': '#000'});
+                                                   .attr({'fill': '#ddd'});
             } else {
               self._beatObjects[time].animate({
                 x : x,
@@ -266,8 +256,32 @@ var beatsUI = {
       requestAnimFrame(animation);
     }
     animation();
+    this.playing = true;
   },
 
+  // returns value between 0-1 indicating how accurate this was
+  hit : function() {
+    var elapsedTime = new Date().getTime() - self._startTime,
+        minDiff = -1,
+        minDiffIndex = -1;
+    for (var i = 0; i < this._beatTimes; ++i) {
+      if (minDiff == -1 || minDiff > Math.abs(elapsedTime - this._beatTimes[i])) {
+        minDiff = Math.abs(elapsedTime - this._beatTimes[i]);
+        minDiffIndex = i;
+      }
+    }
+    if (minDiff < 500) {
+      var rBeat = this._beatObjecs[this._beatTimes[minDiffIndex]];
+      rBeats.animate({
+        w : rBeats.attr('width') + 20,
+        h : rBeats.attr('height') + 20
+      })
+      this._beatTimes.slice(minDiffIndex,1);
+      return (1 - minDiff / 500)
+    } else {
+      return 0;
+    }
+  },
   // dynamic
   _x : 0,
   _y : 0,
@@ -279,7 +293,8 @@ var beatsUI = {
   _beatTimes : null,
   _startTime : null,
   // 5 seconds worth of beats shown
-  _msWidth : 5000
+  _msWidth : 5000,
+  playing : false
 }
 
 function selectMusic() {
