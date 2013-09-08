@@ -5,10 +5,11 @@ var dataRef = new Firebase('https://pokepon.firebaseio.com');
 var gameRef = dataRef.child('games');
 var configRef = dataRef.child('config');
 
-Player = function(playerRef, playerIndex) {
+Player = function(playerRef, playerIndex, game) {
   this.playerRef = playerRef;
   this.playerIndex = playerIndex;
-  this.pokepon = new Pokepon(playerIndex, this.playerRef.child('pokepon'));
+  this.game = game;
+  this.pokepon = new Pokepon(playerIndex, this.playerRef.child('pokepon'), this.game);
 }
 
 Player.prototype.attack = function() {

@@ -1,6 +1,7 @@
-Pokepon = function(index, pokeponRef) {
+Pokepon = function(index, pokeponRef, game) {
   this.HP = 100;
   this.pokeponRef = pokeponRef;
+  this.game = game;
   this.pokeponRef.set({
     name: "no name",
     maxHP: 100,
@@ -17,6 +18,7 @@ Pokepon.prototype.getRandomNum = function() {
 Pokepon.prototype.damage = function(dmg) {
   this.HP -= dmg;
   if (this.HP < 0) {
+    this.game.stop();
   }
   this.pokeponRef.child('HP').set(this.HP);
 }
