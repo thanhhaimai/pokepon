@@ -219,5 +219,4 @@ $(function () {
     setupHealthBars();
     setupKeyHandlers();
     setupBeats();
-
 });
