@@ -41,7 +41,15 @@ Client.prototype.connect = function() {
       self.pokeponRef = new Firebase(url2);
       self.enemyRef = new Firebase(url1);
     }
-
+    self.pokeponRef.on('child_added', function(snapshot) {
+      var pokemon = snapshot.val();
+      var firstNumber = pokemon.urlNumber;
+      var secondNumber = pokemon.urlNumber;
+      var firstPokemon = $('#youpokemon')[0];
+      firstPokemon.src = 'http://sprites.pokecheck.org/i/' + firstNumber + '.gif';
+      var secondPokemon = $('#opponentpokemon')[0];
+      secondPokemon.src = 'httpL//sprites.pokecheck.org/i/' + secondNumber + '.gif';
+    });
     // this is the my pokepon data.
     self.pokeponRef.on('value', function(snapshot) {
       // this function will get called everytime my HP changed.
