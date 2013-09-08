@@ -25,7 +25,8 @@ Client.prototype.connect = function() {
 
     $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + player.pic + '.gif');
 
-    SC.stream('/tracks/108831064', function(s) {
+    // SC.stream('/tracks/108831064', function(s) {
+    SC.stream('/tracks/90304600', function(s) {
       self.sound = s;
     });
   });

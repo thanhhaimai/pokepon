@@ -13,9 +13,9 @@ Pokepon = function(index, pokeponRef, game) {
 Pokepon.prototype.getRandomNum = function() {
   var num = Math.floor(Math.random() * 649) + 1;
   if (num < 100) {
-    num = '0' + num;
+    num = '0' + String(num);
   } else if (num < 10) {
-    num = '00' + num;
+    num = '00' + String(num);
   }
   console.log(num);
   return num;

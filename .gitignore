@@ -24,3 +24,6 @@ npm-debug.log
 node_modules
 
 public/stylesheets/*css
+
+*.mp3
+*.wav

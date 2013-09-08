@@ -41,7 +41,7 @@ app.get('/games/:id', game.view);
 app.get('/soundcloud', soundcloud.index);
 
 var fs = require('fs');
-var beatsArray = fs.readFileSync('./beats/108831064.txt').toString().split("\n");
+var beatsArray = fs.readFileSync('./beats/90304600.txt').toString().split("\n");
 
 io.sockets.on('connection', function (socket) {
   var myGame;
