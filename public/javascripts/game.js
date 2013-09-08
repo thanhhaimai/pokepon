@@ -367,6 +367,7 @@ function selectMusic() {
             $track.click(function() {
               $soundcloudSelector.fadeOut();
               var trackId = (/(\d+)/.exec(track.stream_url))[1];
+             client.loadMusic(trackId);
             });
             $soundcloudSelector.append($track);
           }
