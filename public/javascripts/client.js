@@ -12,16 +12,22 @@ Client.prototype.connect = function() {
   var urlToConnect = url.split('/')[2];
   self.socket = io.connect(urlToConnect);
   console.log(urlToConnect);
+  self.socket = io.connect('http://localhost:3000');
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
-    $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + player.pic + '.gif');
 
     if (player.type !== 'player') {
       // which means there are more than 2 players in the game, and this player becomes a spectator.
       // disable key input for this player
       return;
     }
+
+    $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + player.pic + '.gif');
+
+    SC.stream('/tracks/108831064', function(s) {
+      self.sound = s;
+    });
   });
 
   self.socket.on('gameStart', function(data) {
@@ -35,7 +41,10 @@ Client.prototype.connect = function() {
     var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
     self.pic1 = data.pokepon1;
     self.pic2 = data.pokepon2;
-    console.log(data);
+    console.log(data.beats);
+    beatsUI.setup(data.beats);
+    beatsUI.play();
+    self.sound.play();
 
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
@@ -77,6 +86,8 @@ Client.prototype.connect = function() {
   self.socket.emit('join', {id: self.gameId});
 }
 
+Client.prototype.requestMusic = function(track) {
+}
 
 Client.prototype.attack = function() {
   if (this.isStarted) {

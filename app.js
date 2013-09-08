@@ -40,6 +40,9 @@ app.get('/games/:id', game.view);
 
 app.get('/soundcloud', soundcloud.index);
 
+var fs = require('fs');
+var beatsArray = fs.readFileSync('./beats/108831064.txt').toString().split("\n");
+
 io.sockets.on('connection', function (socket) {
   var myGame;
   var myPlayer;
@@ -76,6 +79,7 @@ io.sockets.on('connection', function (socket) {
         "player2": myGame.players[1].id,
         "pokepon1": myGame.players[0].pokepon.urlNumber,
         "pokepon2": myGame.players[1].pokepon.urlNumber,
+        "beats" : beatsArray,
         "gameId": myGame.id
       });
     }
@@ -90,8 +94,6 @@ io.sockets.on('connection', function (socket) {
     myPlayer.attack();
   });
 });
-
-
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -218,7 +218,7 @@ var beatsUI = {
     this._beatTimes = beatTimes;
 
     var self = this;
-    this._beatTimes.map(function(k) { self._beatObjects[k] = null; })
+    this._beatTimes.map(function(k) { self._beatObjects[k * 1000] = null; })
 
     var $beats = $("#beats"),
     w = $beats.width(),
@@ -286,6 +286,6 @@ $(function () {
 
     setupHealthBars();
     setupKeyHandlers();
-    beatsUI.setup(beatTimes);
-    beatsUI.play();
+    // beatsUI.setup(beatTimes);
+    // beatsUI.play();
 });
