@@ -16,6 +16,8 @@ Pokepon.prototype.getRandomNum = function() {
 
 Pokepon.prototype.damage = function(dmg) {
   this.HP -= dmg;
+  if (this.HP < 0) {
+  }
   this.pokeponRef.child('HP').set(this.HP);
 }
 

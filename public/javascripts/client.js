@@ -66,8 +66,17 @@ Client.prototype.connect = function() {
     });
   });
 
+  self.socket.on('gameover', function() {
+    if (window.confirm("Game over!! Do you want to start a new game?")) {
+      window.location.href = "/games/create";
+    } else {
+      window.location.href = "/";
+    }
+  });
+
   self.socket.emit('join', {id: self.gameId});
 }
+
 
 Client.prototype.attack = function() {
   if (this.isStarted) {

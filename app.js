@@ -80,6 +80,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('print', function() {
     console.log(myGame);
+    console.log(game.games);
   });
 
   socket.on('attack', function(data) {
