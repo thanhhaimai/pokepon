@@ -57,12 +57,18 @@ Client.prototype.connect = function() {
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
       console.log("I'm on the left", data.pokepon2);
+      $('#you .name').html("melaniec");
+      $('#opponent .name').html("sdjidjev");
+
       self.pokeponRef = new Firebase(url1);
       self.enemyRef = new Firebase(url2);
       // $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
       $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
     } else {
       console.log("I'm on the right", data.pokepon1);
+      $('#you .name').html("sdjidjev");
+      $('#opponent .name').html("melaniec");
+
       self.pokeponRef = new Firebase(url2);
       self.enemyRef = new Firebase(url1);
       // $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
