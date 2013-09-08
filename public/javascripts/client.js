@@ -1,5 +1,7 @@
 var baseUrl = 'https://pokepon.firebaseio.com/';
+
 Client = function() {
+  this.isStarted = false;
 }
 
 Client.prototype.connect = function() {
@@ -23,6 +25,8 @@ Client.prototype.connect = function() {
     if (data.gameId !== self.gameId) {
       return;
     }
+
+    self.isStarted = true;
 
     var url1 = baseUrl +  "games/" + self.gameId + '/' + data.player1 + '/pokepon';
     var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
@@ -53,5 +57,7 @@ Client.prototype.connect = function() {
 }
 
 Client.prototype.attack = function() {
-  this.socket.emit('attack', {type: "basic"});
+  if (this.isStarted) {
+    this.socket.emit('attack', {type: "basic"});
+  }
 }
