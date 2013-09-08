@@ -113,103 +113,108 @@ function setHealth($healthBarContainer, health) {
   });
 }
 
+function handleKeys() {
+  $(document).keyup(function (e) {
+    if (e.keyCode in keys) {
+    return;
+    }
+    var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
+    if (!isAccuratePress(beatTimeStamp, new Date().getTime(), 500)) {
+    console.log("NOT ACCURATE ENOUGH!");
+    sequenceSoFar=[];
+    count = 0;
+    }
+    sequenceSoFar.push(e.keyCode);
+    console.log("SEQSOFAR", sequenceSoFar);
+    if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
+    console.log(isSubArray(sequenceSoFar, attackDict['block']));
+    document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
+    count = count + 1;
+    if (count == attackDict['block'].length) {
+    var youpokemonel = $('#youpokemon')[0];
+    var youpokemonelcopy = youpokemonel.src.toString()
+    youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
+    var transitionendhandler = function(event) {
+      console.log("normal")
+        youpokemonel.src = "http://sprites.pokecheck.org/i/009.gif"
+        youpokemonel.style.WebkitTransform = "scaleX(-1)";
+    }
+    youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+    successfulPokemonAttack("Pokepon", 'BLOCK');
+    }
+    }
+    else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
+      console.log(isSubArray(sequenceSoFar, attackDict['scratch'])); 
+      document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
+      count = count + 1;
+      if (count == attackDict['scratch'].length) {
+        console.log("SCRATCH");
+        var youpokemonel = $('#youpokemon')[0];
+        youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
+        youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
+        youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
+        youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
+        var transitionendhandler = function(event) {
+          youpokemonel.style.transform = "scaleX(-1)";
+          youpokemonel.style.OTransform = "scaleX(-1)";
+          youpokemonel.style.MozTransform = "scaleX(-1)";
+          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+        }
+        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+        sequenceSoFar =[];
+        count = 0;
+        successfulPokemonAttack("Pokepon", 'SCRATCH');
+      }
+    } 
+    else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
+      console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
+      document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
+      count = count + 1;
+      if (count == attackDict['paralyze'].length) {
+        var youpokemonel = $('#youpokemon')[0];
+        youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
+        var transitionendhandler = function(event) {
+          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+        }
+        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+        successfulPokemonAttack("Pokepon", 'PARALYZE');
+      }
+    }else {
+      $("div#textbox").text("YOU TYPED AN INVALID MOVE!");
+      sequenceSoFar = [];
+      count = 0;
+      $('.keyboard').css('background', '#222');
+      //user can't type for half a second
+    }
+    //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
+    function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
+      if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
+        return true;
+      }
+      return false;
+    }
+
+    function isEqual(arr1, arr2) {
+      if (arr1.length != arr2.length) {
+        return false;
+        for (var i = 0; i < arr1.length; i = i +1) {
+        }
+        if (arr1[i] != arr2[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+  });
+
+}
+
 $(function () {
     client.connect();
 
     setupHealthBars();
+    handleKeys();
 
     // handle key presses
-    $(document).keyup(function (e) {
-      if (e.keyCode in keys) {
-      return;
-      }
-      var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-      if (!isAccuratePress(beatTimeStamp, new Date().getTime(), 500)) {
-      console.log("NOT ACCURATE ENOUGH!");
-      sequenceSoFar=[];
-      count = 0;
-      }
-      sequenceSoFar.push(e.keyCode);
-      console.log("SEQSOFAR", sequenceSoFar);
-      if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
-      console.log(isSubArray(sequenceSoFar, attackDict['block']));
-      document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
-      count = count + 1;
-      if (count == attackDict['block'].length) {
-      var youpokemonel = $('#youpokemon')[0];
-      var youpokemonelcopy = youpokemonel.src.toString()
-      youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
-      var transitionendhandler = function(event) {
-        console.log("normal")
-          youpokemonel.src = "http://sprites.pokecheck.org/i/009.gif"
-          youpokemonel.style.WebkitTransform = "scaleX(-1)";
-      }
-      youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-      successfulPokemonAttack("Pokepon", 'BLOCK');
-      }
-      }
-      else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
-        console.log(isSubArray(sequenceSoFar, attackDict['scratch'])); 
-        document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
-        count = count + 1;
-        if (count == attackDict['scratch'].length) {
-          console.log("SCRATCH");
-          var youpokemonel = $('#youpokemon')[0];
-          youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
-          youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
-          youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
-          youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
-          var transitionendhandler = function(event) {
-            youpokemonel.style.transform = "scaleX(-1)";
-            youpokemonel.style.OTransform = "scaleX(-1)";
-            youpokemonel.style.MozTransform = "scaleX(-1)";
-            youpokemonel.style.WebkitTransform = "scaleX(-1)";
-          }
-          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-          sequenceSoFar =[];
-          count = 0;
-          successfulPokemonAttack("Pokepon", 'SCRATCH');
-        }
-      } 
-      else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
-        console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
-        document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
-        count = count + 1;
-        if (count == attackDict['paralyze'].length) {
-          var youpokemonel = $('#youpokemon')[0];
-          youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
-          var transitionendhandler = function(event) {
-            youpokemonel.style.WebkitTransform = "scaleX(-1)";
-          }
-          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-          successfulPokemonAttack("Pokepon", 'PARALYZE');
-        }
-      }else {
-        $("div#textbox").text("YOU TYPED AN INVALID MOVE!");
-        sequenceSoFar = [];
-        count = 0;
-        $('.keyboard').css('background', '#222');
-        //user can't type for half a second
-      }
-      //given a timestamp of a beat, and timestamp of a keypress, and maxdelta, check if the difference is under maxdelta
-      function isAccuratePress(beatTimeStamp, keyPressTimeStamp, maxDelta) {
-        if ( Math.abs(beatTimeStamp - keyPressTimeStamp) <= maxDelta) {
-          return true;
-        }
-        return false;
-      }
-
-      function isEqual(arr1, arr2) {
-        if (arr1.length != arr2.length) {
-          return false;
-          for (var i = 0; i < arr1.length; i = i +1) {
-          }
-          if (arr1[i] != arr2[i]) {
-            return false;
-          }
-        }
-        return true;
-      }
-    });
 
 });
