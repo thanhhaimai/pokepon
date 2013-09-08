@@ -10,8 +10,8 @@ Client.prototype.connect = function() {
   self.gameId = url.substr(url.lastIndexOf('/') + 1);
 
   var urlToConnect = url.split('/')[2];
-  self.socket = io.connect(urlToConnect);
   console.log(urlToConnect);
+  self.socket = io.connect("http://" + urlToConnect);
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
