@@ -12,7 +12,6 @@ Client.prototype.connect = function() {
   var urlToConnect = url.split('/')[2];
   self.socket = io.connect(urlToConnect);
   console.log(urlToConnect);
-  self.socket = io.connect('http://localhost:3000');
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
