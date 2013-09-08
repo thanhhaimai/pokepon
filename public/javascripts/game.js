@@ -113,7 +113,7 @@ function setHealth($healthBarContainer, health) {
   });
 }
 
-function handleKeys() {
+function setupKeyHandlers() {
   $(document).keyup(function (e) {
     if (e.keyCode in keys) {
     return;
@@ -209,12 +209,15 @@ function handleKeys() {
 
 }
 
+function setupBeats() {
+
+}
+
 $(function () {
     client.connect();
 
     setupHealthBars();
-    handleKeys();
-
-    // handle key presses
+    setupKeyHandlers();
+    setupBeats();
 
 });
