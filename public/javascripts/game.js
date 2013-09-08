@@ -334,8 +334,9 @@ function selectMusic() {
                             '<img src="'+url+'"></img>'+
                             '<div>'+track.title+'</div>');
             $track.click(function() {
-              alert("Load " + track.stream_url);
-            })
+              $soundcloudSelector.fadeOut();
+              var trackId = (/(\d+)/.exec(track.stream_url))[1];
+            });
             $soundcloudSelector.append($track);
           }
           break;
