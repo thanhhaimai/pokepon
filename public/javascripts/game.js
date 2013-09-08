@@ -126,7 +126,7 @@ function setupKeyHandlers() {
     document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
     count = count + 1;
     if (count == attackDict['block'].length) {
-    var youpokemonel = $('#youpokemon')[0];
+    var youpokemonel = $('#you .pokemon')[0];
     var youpokemonelcopy = youpokemonel.src.toString()
     youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
     var transitionendhandler = function(event) {
@@ -141,7 +141,7 @@ function setupKeyHandlers() {
       document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
       count = count + 1;
       if (count == attackDict['scratch'].length) {
-        var youpokemonel = $('#youpokemon')[0];
+        var youpokemonel = $('#you .pokemon')[0];
         youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
         youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
         youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
@@ -162,7 +162,7 @@ function setupKeyHandlers() {
       document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
       count = count + 1;
       if (count == attackDict['paralyze'].length) {
-        var youpokemonel = $('#youpokemon')[0];
+        var youpokemonel = $('#you .pokemon')[0];
         youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
         var transitionendhandler = function(event) {
           youpokemonel.style.WebkitTransform = "scaleX(-1)";
