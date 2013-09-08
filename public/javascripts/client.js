@@ -9,7 +9,7 @@ Client.prototype.connect = function() {
   var url = window.location.href;
   self.gameId = url.substr(url.lastIndexOf('/') + 1);
 
-  self.socket = io.connect('http://localhost:3000');
+  self.socket = io.connect('http://ec2-107-22-149-156.compute-1.amazonaws.com:3000');
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
