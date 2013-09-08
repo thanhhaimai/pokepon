@@ -10,6 +10,7 @@ Client.prototype.connect = function() {
   self.gameId = url.substr(url.lastIndexOf('/') + 1);
 
   self.socket = io.connect('http://localhost:3000');
+<<<<<<< HEAD
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
@@ -25,6 +26,8 @@ Client.prototype.connect = function() {
     if (data.gameId !== self.gameId) {
       return;
     }
+=======
+>>>>>>> making the distance
 
     self.isStarted = true;
 

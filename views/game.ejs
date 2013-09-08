@@ -162,6 +162,15 @@
             document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
             count = count + 1;
             if (count == attackDict['block'].length) {
+              var youpokemonel = $('#youpokemon')[0];
+              var youpokemonelcopy = youpokemonel.src.toString()
+              youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
+              var transitionendhandler = function(event) {
+                console.log("normal")
+                youpokemonel.src = "http://sprites.pokecheck.org/i/009.gif"
+                youpokemonel.style.WebkitTransform = "scaleX(-1)";
+              }
+              youpokemonel.addEventListener("transitionend", transitionendhandler, true);
               successfulPokemonAttack("Pokepon", 'BLOCK');
             }
           }
@@ -181,7 +190,6 @@
                 youpokemonel.style.OTransform = "scaleX(-1)";
                 youpokemonel.style.MozTransform = "scaleX(-1)";
                 youpokemonel.style.WebkitTransform = "scaleX(-1)";
-                youpokemonel.removeEventListener("transitionend", this);
               }
               youpokemonel.addEventListener("transitionend", transitionendhandler, true);
               sequenceSoFar =[];
@@ -193,7 +201,13 @@
             console.log(isSubArray(sequenceSoFar, attackDict['paralyze'])); 
             document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
             count = count + 1;
-            if (count == attackDict['scratch'].length) {
+            if (count == attackDict['paralyze'].length) {
+              var youpokemonel = $('#youpokemon')[0];
+              youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
+              var transitionendhandler = function(event) {
+                youpokemonel.style.WebkitTransform = "scaleX(-1)";
+              }
+              youpokemonel.addEventListener("transitionend", transitionendhandler, true);
               successfulPokemonAttack("Pokepon", 'PARALYZE');
               }
             }else {
