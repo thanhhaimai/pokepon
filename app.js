@@ -60,7 +60,7 @@ io.sockets.on('connection', function (socket) {
 
     if (myGame.players.length === 2) {
       myGame.start();
-      socket.broadcast.emit('gameStart', {
+      io.sockets.emit('gameStart', {
         "player1": myGame.players[0].id,
         "player2": myGame.players[1].id,
       });
