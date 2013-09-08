@@ -7,7 +7,7 @@ Client.prototype.connect = function() {
   var url = window.location.href;
   self.gameId = url.substr(url.lastIndexOf('/') + 1);
 
-  self.socket = io.connect('http://158.130.159.141:3000');
+  self.socket = io.connect('http://localhost:3000');
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
