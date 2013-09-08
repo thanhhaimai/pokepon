@@ -128,78 +128,81 @@ function setHealth($healthBarContainer, health) {
 
 function setupKeyHandlers() {
   $(document).keydown(function (e) {
-    if (e.keyCode in keys) {
-      return;
-    }
     if (!beatsUI.playing) { console.log("Not playing!"); return; }
-    var hitScore = beatsUI.hit();
-    if (hitScore == 0) {
-      sequenceSoFar=[];
-      count = 0;
-    }
+    var onBeat = beatsUI.hit() != 0;
     sequenceSoFar.push(e.keyCode);
     if (e.keyCode == attackDict['block'][count] && isSubArray(sequenceSoFar, attackDict['block'])) {
-      document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
-      count = count + 1;
-      if (count == attackDict['block'].length) {
-        // var youpokemonel = $('#you .pokemon')[0];
-        // var youpokemonelcopy = youpokemonel.src.toString();
-        //should be a shielf or something for block
-        var youpokemonel = $('#you .pokemon')[0];
-        youpokemonel.style.transform = "scale(-0.5, 0.5)";
-        youpokemonel.style.OTransform = "scale(-0.5, 0.5)";
-        youpokemonel.style.MozTransform = "scale(-0.5, 0.5)";
-        youpokemonel.style.WebkitTransform = "scale(-0.5, 0.5)";
-        var enemypokemonel = $('enemypokepon')[0];
-        var transitionendhandler = function(event) {
-          youpokemonel.style.transform = "scaleX(-1)";
-          youpokemonel.style.OTransform = "scaleX(-1)";
-          youpokemonel.style.MozTransform = "scaleX(-1)";
-          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+      console.log("1");
+      if (onBeat) {
+        document.getElementById(keyboardKeys['block'][count]).style.background = "#f00";
+        count = count + 1;
+        if (count == attackDict['block'].length) {
+          // var youpokemonel = $('#you .pokemon')[0];
+          // var youpokemonelcopy = youpokemonel.src.toString();
+          //should be a shielf or something for block
+          var youpokemonel = $('#you .pokemon')[0];
+          youpokemonel.style.transform = "scale(-0.5, 0.5)";
+          youpokemonel.style.OTransform = "scale(-0.5, 0.5)";
+          youpokemonel.style.MozTransform = "scale(-0.5, 0.5)";
+          youpokemonel.style.WebkitTransform = "scale(-0.5, 0.5)";
+          var enemypokemonel = $('enemypokepon')[0];
+          var transitionendhandler = function(event) {
+            youpokemonel.style.transform = "scaleX(-1)";
+            youpokemonel.style.OTransform = "scaleX(-1)";
+            youpokemonel.style.MozTransform = "scaleX(-1)";
+            youpokemonel.style.WebkitTransform = "scaleX(-1)";
+          }
+          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+          //
+          var transitionendhandler = function(event) {
+          }
+          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+          successfulPokemonAttack("Pokepon", 'BLOCK');
         }
-        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-        //
-        var transitionendhandler = function(event) {
-        }
-        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-        successfulPokemonAttack("Pokepon", 'BLOCK');
       }
     }
     else if (e.keyCode == attackDict['scratch'][count] && isSubArray(sequenceSoFar, attackDict['scratch'])) {
-      document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
-      count = count + 1;
-      if (count == attackDict['scratch'].length) {
-        var youpokemonel = $('#you .pokemon')[0];
-        youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
-        youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
-        youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
-        youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
-        var enemypokemonel = $('enemypokepon')[0];
-        var transitionendhandler = function(event) {
-          youpokemonel.style.transform = "scaleX(-1)";
-          youpokemonel.style.OTransform = "scaleX(-1)";
-          youpokemonel.style.MozTransform = "scaleX(-1)";
-          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+      console.log("2");
+      if (onBeat) {
+        document.getElementById(keyboardKeys['scratch'][count]).style.background = "#f00";
+        count = count + 1;
+        if (count == attackDict['scratch'].length) {
+          var youpokemonel = $('#you .pokemon')[0];
+          youpokemonel.style.transform = "scaleX(-1) translateX(-200px)";
+          youpokemonel.style.OTransform = "scaleX(-1) translateX(-200px)";
+          youpokemonel.style.MozTransform = "scaleX(-1) translateX(-200px)";
+          youpokemonel.style.WebkitTransform = "scaleX(-1) translateX(-200px)";
+          var enemypokemonel = $('enemypokepon')[0];
+          var transitionendhandler = function(event) {
+            youpokemonel.style.transform = "scaleX(-1)";
+            youpokemonel.style.OTransform = "scaleX(-1)";
+            youpokemonel.style.MozTransform = "scaleX(-1)";
+            youpokemonel.style.WebkitTransform = "scaleX(-1)";
+          }
+          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+          sequenceSoFar =[];
+          count = 0;
+          successfulPokemonAttack("Pokepon", 'SCRATCH');
         }
-        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-        sequenceSoFar =[];
-        count = 0;
-        successfulPokemonAttack("Pokepon", 'SCRATCH');
       }
     } 
     else if (e.keyCode == attackDict['paralyze'][count] && isSubArray(sequenceSoFar, attackDict['paralyze'])) {
-      document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
-      count = count + 1;
-      if (count == attackDict['paralyze'].length) {
-        var youpokemonel = $('#you .pokemon')[0];
-        youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
-        var transitionendhandler = function(event) {
-          youpokemonel.style.WebkitTransform = "scaleX(-1)";
+      console.log("3");
+      if (onBeat) {
+        document.getElementById(keyboardKeys['paralyze'][count]).style.background = "#f00";
+        count = count + 1;
+        if (count == attackDict['paralyze'].length) {
+          var youpokemonel = $('#you .pokemon')[0];
+          youpokemonel.style.WebkitTransform = "scaleX(-1) translateY(-100px)";
+          var transitionendhandler = function(event) {
+            youpokemonel.style.WebkitTransform = "scaleX(-1)";
+          }
+          youpokemonel.addEventListener("transitionend", transitionendhandler, true);
+          successfulPokemonAttack("Pokepon", 'PARALYZE');
         }
-        youpokemonel.addEventListener("transitionend", transitionendhandler, true);
-        successfulPokemonAttack("Pokepon", 'PARALYZE');
       }
-    }else {
+    } else {
+      console.log("invalid move!");
       $("div#textbox").text("YOU TYPED AN INVALID MOVE!");
       sequenceSoFar = [];
       count = 0;
@@ -291,11 +294,12 @@ var beatsUI = {
         minDiffIndex = i;
       }
     }
-    console.log(minDiff);
-    if (minDiff < 500) {
-      console.log("Beat: ", this._beatTimes[minDiffIndex]*1000);
-      console.dir(this._beatObjects);
+    if (minDiff < 500 && minDiff > 0) {
+      if (!this._beatTimes[minDiffIndex]*1000 in this._beatObjects) {
+        return 0;
+      }
       var rBeat = this._beatObjects[this._beatTimes[minDiffIndex]*1000];
+      if (!rBeat) return 0;
       var expandw = rBeat.attr('width'),
           expandh = 20;
       rBeat.data('x-offset', -expandw/2);
@@ -340,37 +344,35 @@ function selectMusic() {
       for (var i = 0; i < playlists.length; ++i) {
         if (playlists[i].title == "pokepom") {
           var playlist = playlists[i],
-      tracks = playlist.tracks;
-    var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
-    var width = 800;
-    var height = 400;
-    $('body').append($soundcloudSelector);
-    $soundcloudSelector.css({
-      width : width,
-      height : height,
-      top : ($('body').height() - height) / 2,
-      left : ($('body').width() - width) / 2,
-    });
-    for (var j = 0; j < tracks.length; ++j) {
-      var track = tracks[j];
-      var track = tracks[j];
-      var url = track.artwork_url;
-      if (!url) {
-        url = track.waveform_url;
-      }
-      var $track = $('<div class="track">'+
-          '<img src="'+url+'"></img>'+
-          '<div>'+track.title+'</div>');
-      $track.click(function() {
-        $soundcloudSelector.fadeOut();
-        var trackId = (/(\d+)/.exec(track.stream_url))[1];
-      });
-      $soundcloudSelector.append($track);
-    }
-    break;
+          tracks = playlist.tracks;
+          var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
+          var width = 800;
+          var height = 400;
+          $('body').append($soundcloudSelector);
+          $soundcloudSelector.css({
+            width : width,
+            height : height,
+            top : ($('body').height() - height) / 2,
+            left : ($('body').width() - width) / 2,
+          });
+          for (var j = 0; j < tracks.length; ++j) {
+            var track = tracks[j];
+            var url = track.artwork_url;
+            if (!url) {
+              url = track.waveform_url;
+            }
+            var $track = $('<div class="track">'+
+                           '<img src="'+url+'"></img>'+
+                           '<div>'+track.title+'</div>');
+            $track.click(function() {
+              $soundcloudSelector.fadeOut();
+              var trackId = (/(\d+)/.exec(track.stream_url))[1];
+            });
+            $soundcloudSelector.append($track);
+          }
+          break;
         }
       }
-      console.dir(playlists);
     });
   });
 }
