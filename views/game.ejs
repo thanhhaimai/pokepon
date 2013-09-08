@@ -60,9 +60,82 @@
           return isSubArray(typedArray.slice(1), givenMove.slice(1));
         }
       }
+
+      function setupHealthBars() {
+        var $youHealthBarContainer = $('#youhealthbar'),
+            $opponentHealthBarContainer = $('#opponenthealthbar'),
+            width  = $youHealthBarContainer.width(),
+            height = $youHealthBarContainer.height(),
+            youHealthPaper = Raphael($youHealthBarContainer[0], width, height),
+            opponentHealthPaper = Raphael($opponentHealthBarContainer[0], width, height);
+
+        var x = 0.1*width, y = 0.1*height, w = 0.8*width, h = 0.8*height;
+        // health bar backgrounds
+        youHealthPaper.rect(x,y,w,h).attr({'fill' : '#aaffaa'});
+        opponentHealthPaper.rect(x,y,w,h).attr({'fill' : '#aaffaa'});
+
+            // actual health bars
+            var youHealthBar = youHealthPaper
+                            .rect(x,y,w,h)
+                            .attr({ fill : '#50dd50'}),
+
+            opponentHealthBar = opponentHealthPaper
+                                .rect(x,y,w,h)
+                                .attr({ fill : '#50dd50'});
+
+        youHealthBar.data('origHeight', .8*height);
+        youHealthBar.data('origWidth', .8*width);
+        opponentHealthBar.data('origHeight', .8*height);
+        opponentHealthBar.data('origWidth', .8*width);
+        $youHealthBarContainer.data('healthBar', youHealthBar);
+        $opponentHealthBarContainer.data('healthBar', opponentHealthBar);
+      }
+
+      /*
+       * healthBarContainer: health bar div
+       * health: new health
+       */
+      function setHealth($healthBarContainer, health) {
+        // raphael rectangle health bar
+        var rHealthBar = $healthBarContainer.data('healthBar'),
+            rHealthBarPaper = rHealthBar.paper,
+            oldParams = {
+              x : rHealthBar.attr('x'),
+              y : rHealthBar.attr('y'),
+              width : rHealthBar.attr('width'),
+              height: rHealthBar.attr('height')
+            },
+            newParams = {
+              width : rHealthBar.data('origWidth')*health,
+              height: rHealthBar.data('origHeight')
+            },
+            popWidth = 0.1 * oldParams.width,
+            popHeight = 0.1 * oldParams.height;
+        rHealthBar.animate({
+          x : oldParams.x - popWidth/2,
+          y : oldParams.y - popHeight/2,
+          width : oldParams.width + popWidth,
+          height : oldParams.height + popHeight
+        }, 100, function() {
+          rHealthBar.animate(oldParams, 100, function() {
+            var hurtRect = rHealthBarPaper
+                            .rect(oldParams.x, oldParams.y, oldParams.width, oldParams.height)
+                            .attr({ fill : '#dd5050' }).insertBefore(rHealthBar);
+            rHealthBar.animate(newParams, 300, function() {
+              hurtRect.animate({ opacity : 0 }, 300, function() {
+                hurtRect.remove();
+              });
+            });
+          });
+        });
+      }
+
       $(function () {
         client.connect();
 
+        setupHealthBars();
+
+        // handle key presses
         $(document).keyup(function (e) {
           if ($.inArray(e.keyCode, acceptedKeyCodes) == -1) {
             return;
@@ -140,6 +213,7 @@
               return true;
             }
           });
+
         });
       </script>
 
@@ -162,7 +236,6 @@
           <div align = right>
             <div id="healthNumber"> 20/100</div>
             <div class = "healthbar" id = "youhealthbar">
-              <div class = "healthy" id = "youhealthy"></div>
             </div>
           </div>
           <div class = "hdivider"></div>
@@ -193,7 +266,6 @@
           </div>
           <div align = left>
             <div class = "healthbar" id = "opponenthealthbar">
-              <div class = "healthy" id = "opponenthealthy"></div>
             </div>
           </div>
           <div class = "hdivider"></div>
