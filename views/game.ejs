@@ -14,54 +14,62 @@
     <script src="/javascripts/sound.js"></script>
   </head>
   <body background="/img/pokemon_background.png">
-      <div id="player-containers-container">
-        <div class="player-container" id="you">
-          <h1 class="name">
-            melaniec
-          </h1>
+    <div id="player-containers-container">
+      <div class="player-container" id="you">
+        <h1 class="name">
+          melaniec
+        </h1>
 
-          <div class="pokemon-container">
-            <img class="pokemon" id="mypokepon"></img>
-          </div>
-
-          <div class="health-bar-and-number">
-            <div class="health-number">20/100</div>
-            <div class="health-bar"></div>
-          </div>
-
-          <!-- TODO: cleanup moves -->
-          <div id="moves" class="moves-or-beats">
-            <div id="textbox">
-            A wild pokemon appeared!
-            </div>
-            <h2><u>moves</u></h2>
-            scratch: <div class="keyboard" id="firstbasic">W</div><div class="keyboard" id="secondbasic">W</div><div class="keyboard" id="thirdbasic">W</div><div class="keyboard" id="fourthbasic">W</div>
-            <br>
-            <br>
-            block: <div class="keyboard" id="firstblock">A</div><div class="keyboard" id="secondblock">A</div><div class="keyboard" id="thirdblock">S</div><div class="keyboard" id="fourthblock">A</div>
-            <br>
-            <br>
-            paralyze: <div class="keyboard" id="firstpara">S</div><div class="keyboard" id="secondpara">A</div><div class="keyboard" id="thirdpara">W</div><div class="keyboard" id="fourthpara">D</div>
-            <br>
-            <br>
-          </div>
-
-        </div><!-- html new lines = spaces so avoid space with comment
-     --><div class="player-container" id="opponent">
-          <h1 class="name">
-            sdjidjev
-          </h1>
-          <div class="pokemon-container">
-            <img class="pokemon" id="enemypokepon"></img>
-          </div>
-
-          <div class="health-bar-and-number">
-            <div class="health-number">20/100</div>
-            <div class="health-bar"></div>
-          </div>
-
-          <div id="beats" class="moves-or-beats"></div>
+        <div class="pokemon-container">
+          <img class="pokemon" id="mypokepon"></img>
         </div>
+
+        <div class="health-bar-and-number">
+          <div class="health-number">100/100</div>
+          <div class="health-bar"></div>
+        </div>
+
+        <!-- TODO: cleanup moves -->
+        <div id="moves" class="moves-or-beats">
+          <div id="textbox">
+            A wild pokemon appeared!
+          </div>
+          <h2><u>moves</u></h2>
+          <div class="move">
+            scratch: <div class="keyboard" id="firstbasic">W</div><div class="keyboard" id="secondbasic">W</div><div class="keyboard" id="thirdbasic">W</div><div class="keyboard" id="fourthbasic">W</div>
+          </div>
+          <br>
+          <br>
+          <div class="move">
+            block: <div class="keyboard" id="firstblock">A</div><div class="keyboard" id="secondblock">A</div><div class="keyboard" id="thirdblock">S</div><div class="keyboard" id="fourthblock">A</div>
+          </div>
+          <br>
+          <br>
+          <div class="move">
+            paralyze: <div class="keyboard" id="firstpara">S</div><div class="keyboard" id="secondpara">A</div><div class="keyboard" id="thirdpara">W</div><div class="keyboard" id="fourthpara">D</div>
+          </div>
+          <br>
+          <br>
+        </div>
+
+      </div><!-- html new lines = spaces so avoid space with comment
+      --><div class="player-container" id="opponent">
+        <h1 class="name">
+          sdjidjev
+        </h1>
+        <div class="pokemon-container">
+          <img class="pokemon" id="enemypokepon"></img>
+        </div>
+
+        <div class="health-bar-and-number">
+          <!--          <div class="health-number">20/100</div>
+          --!>
+          <br>
+          <div class="health-bar"></div>
+        </div>
+
+        <div id="beats" class="moves-or-beats"></div>
       </div>
-    </body>
-  </html>
+    </div>
+  </body>
+</html>
