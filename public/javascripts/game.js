@@ -57,7 +57,6 @@ function setupHealthBars() {
   height = $youHealthBarContainer.height(),
   youHealthPaper = Raphael($youHealthBarContainer[0], width, height),
   opponentHealthPaper = Raphael($opponentHealthBarContainer[0], width, height);
-  console.log(width, height);
 
   var x = 0.1*width, y = 0.1*height, w = 0.8*width, h = 0.8*height;
   // health bar backgrounds
@@ -213,7 +212,6 @@ var beatsUI = {
     var $beats = $("#beats"),
     w = $beats.width(),
     h = $beats.height();
-    console.log($beats.height());
     this._paper = Raphael($beats[0], w, h);
 
     this._w = 0.8*w;
@@ -309,7 +307,6 @@ function selectMusic() {
     SC.get("/me/playlists", function(playlists) {
       for (var i = 0; i < playlists.length; ++i) {
         if (playlists[i].title == "pokepom") {
-          console.log("Creating div");
           var playlist = playlists[i],
               tracks = playlist.tracks;
           var $soundcloudSelector = $('<div id="soundcloudSelector"><h1>Pick a song!</h1></div>');
@@ -324,7 +321,6 @@ function selectMusic() {
           });
           for (var j = 0; j < tracks.length; ++j) {
             var track = tracks[j];
-            console.log("Track:", track.title);
             var track = tracks[j];
             var url = track.artwork_url;
             if (!url) {
