@@ -292,7 +292,7 @@ var beatsUI = {
       }
     }
     console.log(minDiff);
-    if (minDiff < 200) {
+    if (minDiff < 500) {
       console.log("Beat: ", this._beatTimes[minDiffIndex]*1000);
       console.dir(this._beatObjects);
       var rBeat = this._beatObjects[this._beatTimes[minDiffIndex]*1000];
@@ -307,7 +307,7 @@ var beatsUI = {
       },100)
       this._beatTimes.slice(minDiffIndex,1);
       delete this._beatObjects[this._beatTimes[minDiffIndex]];
-      return (1 - minDiff / 200)
+      return (1 - minDiff / 500)
     } else {
       return 0;
     }
