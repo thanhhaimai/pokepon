@@ -21,6 +21,12 @@ exports.create = function(req, res) {
   var gameRef = dataRef.child('games/').child(id);
   dataRef.child('games/' + id + '/id').set(id);
   games[id] = new Game(gameRef, id);
+  gameRef.on('value', function(snapshot) {
+    var s = snapshot.val();
+    if (s) {
+      games[id].song = s.song;
+    }
+  });
   res.redirect('/games/' + id);
 }
 
