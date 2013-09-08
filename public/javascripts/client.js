@@ -34,8 +34,13 @@ Client.prototype.connect = function() {
     console.log(url2);
 
     // TODO(melanie: set the right ref based on my self.id
-    self.pokeponRef = new Firebase(url1);
-    self.enemyRef = new Firebase(url2);
+    if (data.player1 === self.id) {
+      self.pokeponRef = new Firebase(url1);
+      self.enemyRef = new Firebase(url2);
+    } else {
+      self.pokeponRef = new Firebase(url2);
+      self.enemyRef = new Firebase(url1);
+    }
 
     // this is the my pokepon data.
     self.pokeponRef.on('value', function(snapshot) {
@@ -43,13 +48,13 @@ Client.prototype.connect = function() {
       var pokepon = snapshot.val();
       console.log(pokepon.HP);
       // example of how to update the HP bar
-      $('#youhealthy').width(pokepon.HP + "%");
+      setHealth($('#youhealthbar'), pokepon.HP / 100.0);
     });
 
     self.enemyRef.on('value', function(snapshot) {
       enemy = snapshot.val();
       console.log(enemy.HP);
-      $('#opponenthealthy').width(enemy.HP + "%");
+      setHealth($('#opponenthealthbar'), enemy.HP / 100.0);
     });
   });
 
