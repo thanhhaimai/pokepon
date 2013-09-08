@@ -52,19 +52,19 @@ Client.prototype.connect = function() {
     beatsUI.setup(data.beats);
     beatsUI.play();
 
-    SC.stream('/tracks/' + data.song, function(s) {
-      self.sound = s;
-      self.sound.play();
-    });
+//    SC.stream('/tracks/' + data.song, function(s) {
+//      self.sound = s;
+//      self.sound.play();
+//    });
 
 //     // play the song if we can get the sound driver
 //     if (self.sound) {
 //       self.sound.play();
 //     } else {
-//       SC.stream('/tracks/90304600', function(s) {
-//         self.sound = s;
-//         self.sound.play();
-//       });
+       SC.stream('/tracks/90304600', function(s) {
+         self.sound = s;
+         self.sound.play();
+       });
 //     }
    
     // TODO(melanie: set the right ref based on my self.id
