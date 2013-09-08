@@ -137,10 +137,9 @@ function setupKeyHandlers() {
     if (count == attackDict['block'].length) {
     var youpokemonel = $('#you .pokemon')[0];
     var youpokemonelcopy = youpokemonel.src.toString()
-    youpokemonel.src = "http://sprites.pokecheck.org/b/009.gif"
+    //should be a shielf or something for block
+    //
     var transitionendhandler = function(event) {
-        youpokemonel.src = "http://sprites.pokecheck.org/i/009.gif"
-        youpokemonel.style.WebkitTransform = "scaleX(-1)";
     }
     youpokemonel.addEventListener("transitionend", transitionendhandler, true);
     successfulPokemonAttack("Pokepon", 'BLOCK');

@@ -9,7 +9,9 @@ Client.prototype.connect = function() {
   var url = window.location.href;
   self.gameId = url.substr(url.lastIndexOf('/') + 1);
 
-  self.socket = io.connect('http://ec2-107-22-149-156.compute-1.amazonaws.com:3000');
+  var urlToConnect = url.split('/')[2];
+  self.socket = io.connect(urlToConnect);
+  console.log(urlToConnect);
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
@@ -48,7 +50,7 @@ Client.prototype.connect = function() {
       $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
     }
 
-   // this is the my pokepon data.
+    // this is the my pokepon data.
     self.pokeponRef.on('value', function(snapshot) {
       // this function will get called everytime my HP changed.
       var pokepon = snapshot.val();
