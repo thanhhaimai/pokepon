@@ -2,17 +2,18 @@ Pokepon = function(index, pokeponRef, game) {
   this.HP = 100;
   this.pokeponRef = pokeponRef;
   this.game = game;
+  this.urlNumber = this.getRandomNum();
   this.pokeponRef.set({
     name: "no name",
     maxHP: 100,
-    HP: 100,
-    urlNumber: this.getRandomNum()
+    HP: 100
   });
 }
 
 Pokepon.prototype.getRandomNum = function() {
-  console.log(Math.floor(Math.random * 649) + 1);
-  return (Math.floor(Math.random * 649) + 1);
+  var num = Math.floor(Math.random() * 649) + 1;
+  console.log(num);
+  return num;
 }
 
 Pokepon.prototype.damage = function(dmg) {

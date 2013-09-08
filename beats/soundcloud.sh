@@ -15,4 +15,6 @@ client_id="df1eacadddaf233fdf1c1192a27b7ce5"
 file="$track.mp3"
 
 echo "Downloading $track from SoundCloud to $file"
-curl -C - -s -L "http://api.soundcloud.com/tracks/$track/stream?client_id=$client_id" -o "$track.mp3"
+curl -C - -s -L "http://api.soundcloud.com/tracks/$track/stream?client_id=$client_id" -o $file
+lame --decode $file
+./beats.sh "$track.wav" | cut -d"," -f2 >> "$track.txt"

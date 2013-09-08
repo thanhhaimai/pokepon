@@ -30,8 +30,11 @@ Client.prototype.connect = function() {
 
     var url1 = baseUrl +  "games/" + self.gameId + '/' + data.player1 + '/pokepon';
     var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
-    console.log(url1);
-    console.log(url2);
+    self.pic1 = data.pokepon1;
+    self.pic2 = data.pokepon2;
+    console.log(data);
+    $('#youpokemon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
+    $('#opponentpokemon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
 
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
@@ -41,16 +44,8 @@ Client.prototype.connect = function() {
       self.pokeponRef = new Firebase(url2);
       self.enemyRef = new Firebase(url1);
     }
-    self.pokeponRef.on('child_added', function(snapshot) {
-      var pokemon = snapshot.val();
-      var firstNumber = pokemon.urlNumber;
-      var secondNumber = pokemon.urlNumber;
-      var firstPokemon = $('#you .pokemon')[0];
-      firstPokemon.src = 'http://sprites.pokecheck.org/i/' + firstNumber + '.gif';
-      var secondPokemon = $('#opponent .pokemon')[0];
-      secondPokemon.src = 'httpL//sprites.pokecheck.org/i/' + secondNumber + '.gif';
-    });
-    // this is the my pokepon data.
+
+   // this is the my pokepon data.
     self.pokeponRef.on('value', function(snapshot) {
       // this function will get called everytime my HP changed.
       var pokepon = snapshot.val();
