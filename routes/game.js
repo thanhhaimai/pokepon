@@ -16,7 +16,8 @@ exports.list = function(req, res) {
 
 exports.create = function(req, res) {
   var id = Moniker.choose();
-  var gameRef = dataRef.child('games').child(id);
+  var gameRef = dataRef.child('games/').child(id);
+  dataRef.child('games/' + id + '/id').set(id);
   games[id] = new Game(gameRef, id);
   res.redirect('/games/' + id);
 }
