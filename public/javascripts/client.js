@@ -20,6 +20,10 @@ Client.prototype.connect = function() {
   });
 
   self.socket.on('gameStart', function(data) {
+    if (data.gameId !== self.gameId) {
+      return;
+    }
+
     var url1 = baseUrl +  "games/" + self.gameId + '/' + data.player1 + '/pokepon';
     var url2 = baseUrl +  "games/" + self.gameId + '/' + data.player2 + '/pokepon';
     console.log(url1);

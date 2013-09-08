@@ -63,6 +63,7 @@ io.sockets.on('connection', function (socket) {
       io.sockets.emit('gameStart', {
         "player1": myGame.players[0].id,
         "player2": myGame.players[1].id,
+        "gameId": myGame.id
       });
     }
  });
