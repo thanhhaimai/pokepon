@@ -19,16 +19,31 @@ h1{
 	height: 100%;
 	width:50%;
 	float:left;
-	background-color: #BBFBBB;
 	top: 0;
 	padding-bottom: 100%; 
+	z-index: 1;
+}
+
+.youhealthbarandnumber{
+	position: relative;
+	width: 20em;
+}
+
+#beats{
+	background-color: #A9BA9D;
+	height: 100%;
 }
 
 #healthNumber{
+	position: absolute;
+	padding-right: 20px;
+	text-align: right;
 }
 #textbox{
+	position: absolute;
 	display: inline;
 	float: right;
+	right: 0;
 	text-align: left;
 	padding: 20px;
 	background-color: #DDFBDD;
@@ -38,7 +53,9 @@ h1{
 }
 #moves{
 	text-align: left;
-	margin: 10px;
+	background-color: #A9BA9D;
+	padding-left: 20px;
+	height: 100%;
 }
 
 .keyboard{
@@ -58,7 +75,9 @@ h2{
 	text-align: center;
 	color: #252;
 	font-size: 27px;
-	margin: 0;
+	margin: 10px;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
 }
 
 .pokemon{
@@ -110,10 +129,17 @@ h2{
 	margin-left: 20px;
 }
 
-#username{
+#youname{
 	top:0;
-	margin: 5px;
-	margin-bottom: 5px;
+	padding: 5px;
+	padding-bottom: 5px;
+	border-right: solid 2px  #A9BA9D;
+}
+#opponentname{
+	border-left: solid 2px  #A9BA9D;
+	top:0;
+	padding: 5px;
+	padding-bottom: 5px;
 }
 
 #youcharacter{
@@ -126,7 +152,6 @@ h2{
 
 .vdivider{
 	position: relative;
-	display: inline-block;
 	height: 100%;
 	width: 3px;
 	float: right;
@@ -144,7 +169,8 @@ h2{
 	float: right;
 }
 
-#vopponentdivider{     
+#vopponentdivider{  
+
 	float: left; 
 }
 

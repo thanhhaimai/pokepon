@@ -15,7 +15,7 @@
       html, body { height: 100%; width: 100%; margin: 0; }
     </style>
   </head>
-  <body>
+  <body background = "/img/pokemon_background.png">
     <script>
       //w=87,a=65, s=83, d=68
       var keyboardKeys = [];
@@ -243,27 +243,27 @@
 
       <div align = center>
         <div class = "character" id = "youcharacter" height = "100%">
-          <div class = "vdivider" id = "vyoudivider">
-          </div>
-          <div id = "username">
+          <div id = "youname">
             <h1>
               melaniec
             </h1>
           </div>
           <div class = "hdivider"></div>
-          <div id = "textbox">
-            A wild pokemon appeared!
-          </div>
           <div align = "center" style="width: 100%; height: 50%;">
             <img class = "pokemon" id = "youpokemon" src = "http://static.tumblr.com/yeaa5gt/TTGmngvye/009.gif"></img>
           </div>
           <div align = right>
+            <div class = "youhealthbarandnumber">
             <div id="healthNumber"> 20/100</div>
             <div class = "healthbar" id = "youhealthbar">
             </div>
           </div>
+          </div>
           <div class = "hdivider"></div>
           <div id = "moves">
+            <div id = "textbox">
+            A wild pokemon appeared!
+        </div>
             <h2><u>moves</u></h2>
             scratch: <div class = "keyboard" id = "firstbasic">W</div><div class = "keyboard" id = "secondbasic">W</div><div class = "keyboard" id = "thirdbasic">W</div><div class = "keyboard" id = "fourthbasic">W</div>
             <br>
@@ -277,12 +277,11 @@
           </div>
         </div>
         <div class = "character" id = "opponentcharacter">
-          <div class = "vdivider" id = "vopponentdivider">
-          </div>
-          <div id = "username">
+          <div id = "opponentname">
             <h1>
               sdjidjev
             </h1>
+            <div class = "vdivider" id = "vopponentdivider"></div>
           </div>
           <div class = "hdivider"></div>
           <div align = "center" style="width: 100%; height: 50%;">
@@ -290,9 +289,11 @@
           </div>
           <div align = left>
             <div class = "healthbar" id = "opponenthealthbar">
-            </div>
+              <div class = "healthy" id = "opponenthealthy"></div>
+          </div>
           </div>
           <div class = "hdivider"></div>
+          <div id = "beats"></div>
         </div>
       </div>
     </body>
