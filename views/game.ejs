@@ -150,9 +150,10 @@
             return;
           }
           var beatTimeStamp = new Date().getTime(); //for now, until beat provided by Hai  
-          if (!isAccuratePress(beatTimeStamp, e.timeStamp, 500)) {
+          if (!isAccuratePress(beatTimeStamp, new Date().getTime(), 500)) {
             console.log("NOT ACCURATE ENOUGH!");
             sequenceSoFar=[];
+            count = 0;
           }
           sequenceSoFar.push(e.keyCode);
           console.log("SEQSOFAR", sequenceSoFar);
