@@ -127,7 +127,7 @@ function setHealth($healthBarContainer, health) {
 }
 
 function setupKeyHandlers() {
-  $(document).keyup(function (e) {
+  $(document).keydown(function (e) {
     if (e.keyCode in keys) {
       return;
     }
