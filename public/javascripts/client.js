@@ -13,6 +13,7 @@ Client.prototype.connect = function() {
 
   self.socket.on('joined', function(player) {
     self.id = player.id;
+    $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + player.pic + '.gif');
 
     if (player.type !== 'player') {
       // which means there are more than 2 players in the game, and this player becomes a spectator.
@@ -33,16 +34,18 @@ Client.prototype.connect = function() {
     self.pic1 = data.pokepon1;
     self.pic2 = data.pokepon2;
     console.log(data);
-    $('#youpokemon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
-    $('#opponentpokemon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
 
     // TODO(melanie: set the right ref based on my self.id
     if (data.player1 === self.id) {
       self.pokeponRef = new Firebase(url1);
       self.enemyRef = new Firebase(url2);
+      $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
+      $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
     } else {
       self.pokeponRef = new Firebase(url2);
       self.enemyRef = new Firebase(url1);
+      $('#mypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon2 + '.gif');
+      $('#enemypokepon').attr("src", 'http://sprites.pokecheck.org/i/' + data.pokepon1 + '.gif');
     }
 
    // this is the my pokepon data.

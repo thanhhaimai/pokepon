@@ -65,7 +65,8 @@ io.sockets.on('connection', function (socket) {
     game.players[socket.id] = myPlayer;
     socket.emit('joined', {
       type: myPlayer.type,
-      id: socket.id
+      id: socket.id,
+      pic: myPlayer.pokepon.urlNumber
     });
 
     if (myGame.players.length === 2) {
