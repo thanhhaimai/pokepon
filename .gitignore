@@ -23,4 +23,4 @@ audio/*
 npm-debug.log
 node_modules
 
-public/stylesheets/style.css
+public/stylesheets/*css
