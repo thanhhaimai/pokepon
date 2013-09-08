@@ -3,6 +3,15 @@ keyboardKeys['scratch'] = ['firstbasic', 'secondbasic', 'thirdbasic', 'fourthbas
 keyboardKeys['block'] = ['firstblock', 'secondblock', 'thirdblock', 'fourthblock'];
 keyboardKeys['paralyze'] = ['firstpara', 'secondpara', 'thirdpara', 'fourthpara'];
 
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame    ||
+    function( callback ){
+    window.setTimeout(callback, 1000 / 60);
+  };
+})();
+
 var attackDict = {};
 var keys = {
   "A" : 65,
@@ -22,7 +31,7 @@ var client = new Client();
 
 function successfulPokemonAttack(pokemon, attack) {
   client.attack();
-  $("div#textbox").text(pokemon + " successfully used " + attack + "!");
+  $("#textbox").text(pokemon + " successfully used " + attack + "!");
   count = 0;
   sequenceSoFar =[];
   setTimeout(function(){
@@ -200,22 +209,77 @@ function setupKeyHandlers() {
 
 }
 
-function setupBeats() {
-  /*
-  var $beats = $("#beats"),
-      w = $beats.width(),
-      h = $beats.height();
-      console.log($beats.height());
-      /*
-      beatsPaper = Raphael($beats[0], w, h);
+// DEBUG
+var beatTimes = [], beatCounter = 0;
+while(beatCounter < 30) { beatTimes.push(beatCounter*1000); ++beatCounter; }
+console.log(beatTimes);
 
-  var barWidth = 0.5*w,
-      barHeight = 100;
+var beatsUI = {
+  setup : function(beatTimes) {
+    this._beatTimes = beatTimes;
 
-  console.log(w, h, barWidth, barHeight);
-  console.log(h/2);
-  beatsPaper.rect((w - barWidth)/2, h/2+0.5, barWidth, barHeight).attr({'fill':'#000'});
-  */
+    var self = this;
+    this._beatTimes.map(function(k) { self._beatObjects[k] = null; })
+
+    var $beats = $("#beats"),
+    w = $beats.width(),
+    h = $beats.height();
+    console.log($beats.height());
+    this._paper = Raphael($beats[0], w, h);
+
+    this._w = 0.8*w;
+    this._x = (w - this._w)/2;
+    this._y = (h - this._h)/2;
+
+    this._paper.rect(this._x, this._y, this._w, this._h);
+  },
+
+  play : function() {
+    this._startTime = new Date().getTime();
+    var self = this;
+
+    var animation = function() {
+      var elapsedTime = new Date().getTime() - self._startTime;
+      for (var time in self._beatObjects) {
+        if (self._beatObjects.hasOwnProperty(time)) {
+          if (time < elapsedTime) {
+            if(self._beatObjects[time]) self._beatObjects[time].remove();
+            delete self._beatObjects[time];
+          } else if ((time - elapsedTime) < self._msWidth) {
+            var x = self._x + ((time - elapsedTime) / self._msWidth) * self._w,
+                y = self._y,
+                w = 20,
+                h = self._h;
+            if (self._beatObjects[time] == null) {
+              self._beatObjects[time] = self._paper.rect(x, y, w, h)
+                                                   .attr({'fill': '#000'});
+            } else {
+              self._beatObjects[time].animate({
+                x : x,
+                y : y
+              });
+            }
+          }
+        }
+      }
+
+      requestAnimFrame(animation);
+    }
+    animation();
+  },
+
+  // dynamic
+  _x : 0,
+  _y : 0,
+  _w : 0,
+  _h : 100, // static
+  _paper : null,
+  // maps a beat to its raphael object
+  _beatObjects : {},
+  _beatTimes : null,
+  _startTime : null,
+  // 5 seconds worth of beats shown
+  _msWidth : 5000
 }
 
 $(function () {
@@ -223,5 +287,6 @@ $(function () {
 
     setupHealthBars();
     setupKeyHandlers();
-    setupBeats();
+    beatsUI.setup(beatTimes);
+    beatsUI.play();
 });
