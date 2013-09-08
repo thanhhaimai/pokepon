@@ -83,34 +83,34 @@ function setHealth($healthBarContainer, health) {
   var rHealthBar = $healthBarContainer.data('healthBar'),
       rHealthBarPaper = rHealthBar.paper,
       oldParams = {
-x : rHealthBar.attr('x'),
-    y : rHealthBar.attr('y'),
-    width : rHealthBar.attr('width'),
-    height: rHealthBar.attr('height')
+        x : rHealthBar.attr('x'),
+        y : rHealthBar.attr('y'),
+        width : rHealthBar.attr('width'),
+        height: rHealthBar.attr('height')
       },
       newParams = {
-width : rHealthBar.data('origWidth')*health,
+        width : rHealthBar.data('origWidth')*health,
         height: rHealthBar.data('origHeight')
       },
       popWidth = 0.1 * oldParams.width,
       popHeight = 0.1 * oldParams.height;
   rHealthBar.animate({
-x : oldParams.x - popWidth/2,
-y : oldParams.y - popHeight/2,
-width : oldParams.width + popWidth,
-height : oldParams.height + popHeight
-}, 100, function() {
-rHealthBar.animate(oldParams, 100, function() {
-  var hurtRect = rHealthBarPaper
-  .rect(oldParams.x, oldParams.y, oldParams.width, oldParams.height)
-  .attr({ fill : '#dd5050' }).insertBefore(rHealthBar);
-  rHealthBar.animate(newParams, 300, function() {
-    hurtRect.animate({ opacity : 0 }, 300, function() {
-      hurtRect.remove();
+    x : oldParams.x - popWidth/2,
+    y : oldParams.y - popHeight/2,
+    width : oldParams.width + popWidth,
+    height : oldParams.height + popHeight
+  }, 100, function() {
+    rHealthBar.animate(oldParams, 100, function() {
+      var hurtRect = rHealthBarPaper
+      .rect(oldParams.x, oldParams.y, oldParams.width, oldParams.height)
+      .attr({ fill : '#dd5050' }).insertBefore(rHealthBar);
+      rHealthBar.animate(newParams, 300, function() {
+        hurtRect.animate({ opacity : 0 }, 300, function() {
+          hurtRect.remove();
+        });
       });
     });
   });
-});
 }
 
 $(function () {
