@@ -17,7 +17,6 @@
   </head>
   <body background = "/img/pokemon_background.png">
     <script>
-      //w=87,a=65, s=83, d=68
       var keyboardKeys = [];
       keyboardKeys['scratch'] = ['firstbasic', 'secondbasic', 'thirdbasic', 'fourthbasic'];
       keyboardKeys['block'] = ['firstblock', 'secondblock', 'thirdblock', 'fourthblock'];
@@ -37,9 +36,6 @@
       attackDict['block']     = toCodeArray("AASA");
       attackDict['paralyze']  = toCodeArray("SAWD");
       console.log(attackDict);
-      var timesBasic = 0;
-      var timesBlock = 0;
-      var timesPara = 0;
       var sequenceSoFar = [];
       var count = 0;
       var client = new Client();
@@ -54,9 +50,6 @@
         setTimeout(function(){
           //jQuery lets you treat all elements of a class as one object
           $('.keyboard').css('background', '#222');
-          timesBasic = 0;
-          timesBlock = 0;
-          timesPara = 0;
         }, 100);
       }
 
